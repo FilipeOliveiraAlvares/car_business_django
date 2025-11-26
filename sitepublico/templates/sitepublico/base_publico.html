@@ -1,0 +1,290 @@
+{% load static %}
+{% load logistas_tags %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CarBusiness{% endblock %}</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --cor-primaria: #D7242A;
+            --cor-primaria-dark: #B71C1C;
+            --cor-secundaria: #003F8C;
+            --cor-fundo: #F5F7FA;
+            --cor-texto: #1C1C1E;
+            --cor-texto-leve: #6E6E73;
+            --cor-branco: #FFFFFF;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Inter", sans-serif;
+            background: var(--cor-fundo);
+            color: var(--cor-texto);
+        }
+    </style>
+
+    {% if not hide_header %}
+    <style>
+        /* ====== HEADER ====== */
+        header {
+            background: var(--cor-branco);
+            padding: 14px 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .nav {
+            max-width: 1300px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            height: 50px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links a {
+            margin-left: 26px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--cor-texto);
+            transition: .25s;
+        }
+
+        .nav-links a:hover {
+            color: var(--cor-primaria);
+        }
+
+        /* Mobile */
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .mobile-toggle svg {
+            width: 26px;
+            height: 26px;
+        }
+
+        @media (max-width: 720px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 68px;
+                right: 12px;
+                background: var(--cor-branco);
+                box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+                padding: 12px;
+                border-radius: 12px;
+                min-width: 170px;
+            }
+
+            .nav.open .nav-links {
+                display: flex;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+        }
+    </style>
+    {% endif %}
+
+    <style>
+        /* Container */
+        .container {
+            max-width: 1300px;
+            margin: auto;
+            padding: 22px;
+        }
+
+        /* Breadcrumbs */
+        .breadcrumb {
+            font-size: 14px;
+            margin-bottom: 16px;
+            color: var(--cor-texto-leve);
+        }
+
+        .breadcrumb a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 60px;
+            padding: 35px;
+            text-align: center;
+            background: var(--cor-branco);
+            color: var(--cor-texto-leve);
+            font-size: 14px;
+            box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        footer > div {
+            max-width: 1300px;
+            margin: auto;
+        }
+
+        /* ========== RESPONSIVIDADE GLOBAL ========== */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            header {
+                padding: 12px 15px;
+            }
+
+            .logo {
+                height: 40px;
+            }
+
+            footer {
+                padding: 25px 15px;
+            }
+
+            footer > div {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .breadcrumb {
+                font-size: 13px;
+                padding: 0 5px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+
+            .logo {
+                height: 35px;
+            }
+
+            footer {
+                padding: 20px 10px;
+                font-size: 12px;
+            }
+        }
+    </style>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    {% block head %}{% endblock %}
+
+
+</head>
+
+<body>
+
+    {% if not hide_header %}
+    <header>
+        <div class="nav" id="mainNav">
+
+            <a href="/">
+                <img src="{% static 'img/logo_carbusiness.png' %}" class="logo" alt="CarBusiness">
+            </a>
+
+            <button class="mobile-toggle" id="mobileToggle">
+                <svg viewBox="0 0 24 24">
+                    <path d="M4 6H20" stroke="#222" stroke-width="2" stroke-linecap="round" />
+                    <path d="M4 12H20" stroke="#222" stroke-width="2" stroke-linecap="round" />
+                    <path d="M4 18H20" stroke="#222" stroke-width="2" stroke-linecap="round" />
+                </svg>
+            </button>
+
+            <div class="nav-links">
+
+                <a href="{% url 'listar_carros' %}">Carros</a>
+                {# <a href="{% url 'categorias' %}">Categorias</a> #} {# Temporariamente oculto - será reativado quando houver motos, caminhões, etc. #}
+                <a href="{% url 'listar_lojas' %}">Lojas</a>
+
+                {% if user.is_authenticated %}
+                    {% if user|is_logista %}
+                    <a href="{% url 'logistas:painel' %}">Painel da Loja</a>
+                    <a href="{% url 'logout_usuario' %}">Sair</a>
+                    {% else %}
+                    <a href="{% url 'painel_usuario' %}">Meu Perfil</a>
+                    <a href="{% url 'logout_usuario' %}">Sair</a>
+                    {% endif %}
+                {% else %}
+                <a href="{% url 'login_inteligente' %}">Entrar</a>
+                {% endif %}
+            </div>
+
+
+        </div>
+    </header>
+    {% endif %}
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer>
+
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span>© {{ now|date:"Y" }} CarBusiness — Todos os direitos reservados.</span>
+        </div>
+
+    </footer>
+
+
+    {% block extra_scripts %}{% endblock %}
+
+    {% if not hide_header %}
+    <script>
+        const nav = document.getElementById("mainNav");
+        const toggle = document.getElementById("mobileToggle");
+
+        toggle?.addEventListener("click", () => {
+            nav.classList.toggle("open");
+        });
+
+        document.addEventListener("click", (e) => {
+            if (!nav.contains(e.target)) {
+                nav.classList.remove("open");
+            }
+        });
+    </script>
+    {% endif %}
+    <script>
+        lucide.createIcons();
+    </script>
+
+
+</body>
+
+</html>

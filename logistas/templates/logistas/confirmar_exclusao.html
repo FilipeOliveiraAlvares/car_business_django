@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .confirm-wrapper {
+        max-width: 600px;
+        margin: 50px auto;
+        font-family: Arial, sans-serif;
+    }
+
+    .confirm-card {
+        background: white;
+        padding: 35px;
+        border-radius: 14px;
+        box-shadow: 0 8px 28px rgba(0,0,0,0.1);
+        border: 1px solid #e5e5e5;
+        text-align: center;
+    }
+
+    .confirm-card h2 {
+        margin-top: 0;
+        font-size: 26px;
+        font-weight: 800;
+        color: #333;
+        margin-bottom: 12px;
+    }
+
+    .confirm-card p {
+        color: #666;
+        font-size: 16px;
+        margin-bottom: 25px;
+        line-height: 1.6;
+    }
+
+    .carro-info {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+        margin: 25px 0;
+        text-align: left;
+    }
+
+    .carro-info h3 {
+        margin: 0 0 10px;
+        font-size: 20px;
+        color: #333;
+    }
+
+    .carro-info p {
+        margin: 5px 0;
+        color: #666;
+        font-size: 14px;
+    }
+
+    .carro-info img {
+        width: 100%;
+        max-width: 300px;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
+
+    .btn-group {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        margin-top: 30px;
+    }
+
+    .btn {
+        padding: 12px 28px;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 700;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .btn-danger {
+        background: #d9534f;
+        color: white;
+    }
+
+    .btn-danger:hover {
+        background: #c9302c;
+    }
+
+    .btn-secondary {
+        background: #6c757d;
+        color: white;
+    }
+
+    .btn-secondary:hover {
+        background: #5a6268;
+    }
+
+    .warning-icon {
+        font-size: 48px;
+        margin-bottom: 15px;
+    }
+</style>
+
+<div class="confirm-wrapper">
+    <div class="confirm-card">
+        <div class="warning-icon">⚠️</div>
+        <h2>Confirmar exclusão</h2>
+        <p>Você está prestes a excluir este veículo. Esta ação não pode ser desfeita.</p>
+
+        <div class="carro-info">
+            {% if carro.foto_principal %}
+            <img src="{{ carro.foto_principal.url }}" alt="{{ carro.nome }}">
+            {% endif %}
+            <h3>{{ carro.nome }}</h3>
+            <p><strong>Marca:</strong> {{ carro.marca.nome }}</p>
+            <p><strong>Ano:</strong> {{ carro.ano }}</p>
+            <p><strong>Preço:</strong> R$ {{ carro.preco }}</p>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="btn-group">
+                <button type="submit" class="btn btn-danger">🗑️ Sim, excluir veículo</button>
+                <a href="{% url 'logistas:painel' %}" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+

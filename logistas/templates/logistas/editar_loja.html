@@ -1,0 +1,425 @@
+{% extends 'sitepublico/base_publico.html' %}
+{% load static %}
+
+{% block title %}Editar Loja — CarBusiness{% endblock %}
+
+{% block content %}
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+    body {
+        background: #F5F7FA;
+        font-family: "Inter", sans-serif;
+    }
+
+    /* ========== HERO SECTION ========== */
+    .hero-section {
+        background: linear-gradient(135deg, #D7242A 0%, #B71C1C 100%);
+        padding: 40px 20px;
+        text-align: center;
+        color: white;
+        margin-bottom: 40px;
+        box-shadow: 0 4px 20px rgba(215, 36, 42, 0.2);
+    }
+
+    .hero-section h1 {
+        font-size: 32px;
+        font-weight: 900;
+        margin: 0 0 8px;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .hero-section p {
+        font-size: 15px;
+        margin: 0;
+        opacity: 0.95;
+    }
+
+    /* ========== FORM CONTAINER ========== */
+    .form-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 20px 60px;
+    }
+
+    .form-card {
+        background: white;
+        padding: 35px;
+        border-radius: 20px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        border: 1px solid #e8e8e8;
+        margin-bottom: 25px;
+    }
+
+    .form-card h3 {
+        margin-top: 0;
+        font-size: 22px;
+        font-weight: 800;
+        color: #1C1C1E;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 3px solid #D7242A;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .form-card h3::before {
+        content: '';
+        width: 4px;
+        height: 24px;
+        background: linear-gradient(135deg, #D7242A 0%, #B71C1C 100%);
+        border-radius: 2px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        font-weight: 600;
+        color: #1C1C1E;
+        font-size: 14px;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        padding: 12px 16px;
+        border-radius: 10px;
+        border: 2px solid #e0e0e0;
+        font-size: 15px;
+        box-sizing: border-box;
+        background: #fafafa;
+        transition: all 0.3s;
+        font-family: "Inter", sans-serif;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+        background: white;
+        border-color: #D7242A;
+        box-shadow: 0 0 0 3px rgba(215, 36, 42, 0.1);
+        outline: none;
+    }
+
+    .form-group small {
+        display: block;
+        margin-top: 6px;
+        color: #6E6E73;
+        font-size: 13px;
+    }
+
+    .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .logo-preview-wrapper {
+        margin-top: 15px;
+        text-align: center;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 12px;
+        border: 2px dashed #D7242A;
+    }
+
+    .logo-preview-wrapper img {
+        max-width: 200px;
+        max-height: 200px;
+        border-radius: 12px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        border: 3px solid white;
+    }
+
+    .logo-preview-wrapper p {
+        margin: 0 0 10px;
+        font-weight: 600;
+        color: #1C1C1E;
+        font-size: 14px;
+    }
+
+    .logo-preview-new {
+        margin-top: 15px;
+        text-align: center;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 12px;
+        border: 2px dashed #ddd;
+    }
+
+    .logo-preview-new img {
+        max-width: 200px;
+        max-height: 200px;
+        border-radius: 12px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        border: 3px solid white;
+    }
+
+    .btn-area {
+        margin-top: 30px;
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .btn-primary {
+        padding: 14px 32px;
+        background: linear-gradient(135deg, #D7242A 0%, #B71C1C 100%);
+        color: white;
+        font-weight: 700;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: all 0.3s;
+        box-shadow: 0 4px 12px rgba(215, 36, 42, 0.3);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(135deg, #B71C1C 0%, #9a1515 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(215, 36, 42, 0.4);
+    }
+
+    .btn-secondary {
+        padding: 14px 32px;
+        background: white;
+        color: #6E6E73;
+        font-weight: 600;
+        border: 2px solid #e0e0e0;
+        border-radius: 12px;
+        text-decoration: none;
+        font-size: 16px;
+        transition: all 0.3s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-secondary:hover {
+        border-color: #D7242A;
+        color: #D7242A;
+        transform: translateY(-2px);
+    }
+
+    /* ========== RESPONSIVIDADE ========== */
+    @media (max-width: 768px) {
+        .hero-section {
+            padding: 30px 20px;
+            margin-bottom: 30px;
+        }
+
+        .hero-section h1 {
+            font-size: 26px;
+        }
+
+        .form-container {
+            padding: 0 15px 40px;
+        }
+
+        .form-card {
+            padding: 25px;
+        }
+
+        .grid-2 {
+            grid-template-columns: 1fr;
+        }
+
+        .btn-area {
+            flex-direction: column;
+        }
+
+        .btn-primary,
+        .btn-secondary {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+</style>
+
+<!-- HERO SECTION -->
+<div class="hero-section">
+    <h1>Editar Loja</h1>
+    <p>{{ loja.nome }}</p>
+</div>
+
+<div class="form-container">
+    <div class="breadcrumb" style="margin-bottom: 20px; font-size: 14px; color: #666;">
+        <a href="{% url 'logistas:painel' %}" style="color: #D7242A; text-decoration: none; font-weight: 600;">Painel</a>
+        &raquo;
+        <span>Editar loja</span>
+    </div>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- CARD 1 - Informações Básicas -->
+        <div class="form-card">
+            <h3>
+                <i data-lucide="store"></i>
+                Informações Básicas
+            </h3>
+
+            <div class="form-group">
+                <label for="{{ form.nome.id_for_label }}">Nome da Loja <span style="color: #D7242A;">*</span></label>
+                {{ form.nome }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.endereco.id_for_label }}">Endereço</label>
+                {{ form.endereco }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.cidade.id_for_label }}">Cidade</label>
+                {{ form.cidade }}
+            </div>
+        </div>
+
+        <!-- CARD 2 - Contato -->
+        <div class="form-card">
+            <h3>
+                <i data-lucide="phone"></i>
+                Informações de Contato
+            </h3>
+
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="{{ form.telefone.id_for_label }}">Telefone</label>
+                    {{ form.telefone }}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.whatsapp.id_for_label }}">WhatsApp</label>
+                    {{ form.whatsapp }}
+                    <small>Somente números (ex: 5511999999999)</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 3 - Redes Sociais -->
+        <div class="form-card">
+            <h3>
+                <i data-lucide="share-2"></i>
+                Redes Sociais e Links
+            </h3>
+
+            <div class="form-group">
+                <label for="{{ form.instagram.id_for_label }}">Instagram</label>
+                {{ form.instagram }}
+                <small>Link completo (ex: https://instagram.com/sualoja)</small>
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.facebook.id_for_label }}">Facebook</label>
+                {{ form.facebook }}
+                <small>Link completo (ex: https://facebook.com/sualoja)</small>
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.site.id_for_label }}">Site / Página Oficial</label>
+                {{ form.site }}
+                <small>Link completo (ex: https://www.sualoja.com)</small>
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.maps_url.id_for_label }}">Link do Google Maps</label>
+                {{ form.maps_url }}
+                <small>Abra no Google Maps, clique em "Compartilhar" → "Copiar link" e cole aqui.</small>
+            </div>
+        </div>
+
+        <!-- CARD 4 - Logo -->
+        <div class="form-card">
+            <h3>
+                <i data-lucide="image"></i>
+                Logo da Loja
+            </h3>
+
+            <div class="form-group">
+                <label for="{{ form.logo.id_for_label }}">Selecionar novo logo</label>
+                {{ form.logo }}
+            </div>
+
+            <!-- Logo atual -->
+            {% if loja.logo %}
+            <div class="logo-preview-wrapper" id="logoAtual">
+                <p><strong>Logo atual:</strong></p>
+                <img src="{{ loja.logo.url }}" alt="Logo atual">
+            </div>
+            {% endif %}
+
+            <!-- Preview do novo logo -->
+            <div class="logo-preview-new" id="logoPreview" style="display: none;">
+                <p><strong>Novo logo (preview):</strong></p>
+                <img id="logoPreviewImg" src="" alt="Preview">
+            </div>
+        </div>
+
+        <!-- Botões -->
+        <div class="btn-area">
+            <button type="submit" class="btn-primary">
+                <i data-lucide="save"></i>
+                Salvar Alterações
+            </button>
+            <a href="{% url 'logistas:painel' %}" class="btn-secondary">
+                <i data-lucide="x"></i>
+                Cancelar
+            </a>
+        </div>
+
+    </form>
+</div>
+
+<!-- Scripts -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    lucide.createIcons();
+
+    // Máscara WhatsApp
+    const wpp = document.querySelector("input[name='whatsapp']");
+    if (wpp) {
+        wpp.addEventListener("input", e => {
+            e.target.value = e.target.value.replace(/\D/g, '');
+        });
+    }
+
+    // Preview do logo
+    const logoInput = document.querySelector("input[name='logo']");
+    const logoPreview = document.getElementById("logoPreview");
+    const logoPreviewImg = document.getElementById("logoPreviewImg");
+    const logoAtual = document.getElementById("logoAtual");
+
+    if (logoInput) {
+        logoInput.addEventListener("change", function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    logoPreviewImg.src = e.target.result;
+                    logoPreview.style.display = "block";
+                    if (logoAtual) {
+                        logoAtual.style.display = "none";
+                    }
+                };
+                reader.readAsDataURL(file);
+            } else {
+                logoPreview.style.display = "none";
+                if (logoAtual) {
+                    logoAtual.style.display = "block";
+                }
+            }
+        });
+    }
+});
+</script>
+
+{% endblock %}

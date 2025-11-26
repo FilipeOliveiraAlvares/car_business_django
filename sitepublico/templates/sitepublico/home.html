@@ -1,0 +1,559 @@
+{% extends "sitepublico/base_publico.html" %}
+{% load static %}
+
+{% block title %}CarBusiness — Encontre o Seu Próximo Veículo{% endblock %}
+
+{% block head %}
+<style>
+    body {
+        background: linear-gradient(to bottom, #F5F7FA 0%, #ffffff 100%);
+    }
+
+    /* ========== HERO SECTION COM BUSCA ========== */
+    .hero-section {
+        background: linear-gradient(135deg, #D7242A 0%, #B71C1C 100%);
+        border-radius: 20px;
+        padding: 60px 40px;
+        margin: 30px auto 50px;
+        max-width: 1250px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 10px 40px rgba(215, 36, 42, 0.2);
+    }
+
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 500px;
+        height: 500px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 50%;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        color: white;
+    }
+
+    .hero-content h1 {
+        margin: 0 0 15px;
+        font-size: 42px;
+        font-weight: 900;
+        line-height: 1.2;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .hero-content p {
+        margin: 0 0 35px;
+        font-size: 18px;
+        opacity: 0.95;
+        font-weight: 400;
+    }
+
+    /* ========== BUSCA DESTACADA ========== */
+    .busca-hero {
+        max-width: 700px;
+        margin: 0 auto;
+        position: relative;
+    }
+
+    .busca-hero form {
+        display: flex;
+        gap: 0;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        overflow: hidden;
+    }
+
+    .busca-hero input {
+        flex: 1;
+        padding: 18px 24px;
+        border: none;
+        font-size: 16px;
+        outline: none;
+        color: #333;
+    }
+
+    .busca-hero input::placeholder {
+        color: #999;
+    }
+
+    .busca-hero button {
+        background: #D7242A;
+        color: white;
+        border: none;
+        padding: 18px 35px;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s;
+        white-space: nowrap;
+    }
+
+    .busca-hero button:hover {
+        background: #B71C1C;
+        transform: scale(1.02);
+    }
+
+    .busca-hero button:active {
+        transform: scale(0.98);
+    }
+
+    /* ========== SEÇÕES ========== */
+    .section-wrapper {
+        max-width: 1250px;
+        margin: 0 auto 60px;
+        padding: 0 20px;
+    }
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+
+    .section-title {
+        font-size: 28px;
+        font-weight: 800;
+        color: #1C1C1E;
+        margin: 0;
+    }
+
+    .section-link {
+        color: #D7242A;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 15px;
+        transition: all 0.2s;
+    }
+
+    .section-link:hover {
+        color: #B71C1C;
+        text-decoration: underline;
+    }
+
+    /* ========== GRID DE MARCAS ========== */
+    .marcas-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 20px;
+    }
+
+    .marca-card {
+        background: white;
+        border-radius: 16px;
+        padding: 25px 20px;
+        text-align: center;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        border: 1px solid #f0f0f0;
+        text-decoration: none;
+        color: inherit;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .marca-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #D7242A, #B71C1C);
+        transform: scaleX(0);
+        transition: transform 0.3s;
+    }
+
+    .marca-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+    }
+
+    .marca-card:hover::before {
+        transform: scaleX(1);
+    }
+
+    .marca-card img {
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+        margin-bottom: 12px;
+        transition: transform 0.3s;
+    }
+
+    .marca-card:hover img {
+        transform: scale(1.1);
+    }
+
+    .marca-card div {
+        font-weight: 600;
+        font-size: 14px;
+        color: #333;
+    }
+
+    /* ========== GRID DE CARROS ========== */
+    .carros-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 24px;
+    }
+
+    .car-card {
+        background: white;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        border: 1px solid #f0f0f0;
+        text-decoration: none;
+        color: inherit;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .car-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .car-image-wrapper {
+        position: relative;
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+        background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+    }
+
+    .car-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s;
+    }
+
+    .car-card:hover img {
+        transform: scale(1.1);
+    }
+
+    .car-badges {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+    }
+
+    .badge {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(8px);
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 700;
+        color: #1C1C1E;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .car-info {
+        padding: 18px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .car-info h3 {
+        margin: 0 0 8px;
+        font-size: 19px;
+        font-weight: 700;
+        color: #1C1C1E;
+        line-height: 1.3;
+    }
+
+    .car-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+    }
+
+    .car-meta-item {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 13px;
+        color: #6E6E73;
+    }
+
+    .car-meta-item svg {
+        width: 14px;
+        height: 14px;
+        opacity: 0.7;
+    }
+
+    .car-preco {
+        font-size: 26px;
+        font-weight: 900;
+        color: #D7242A;
+        margin-top: auto;
+        margin-bottom: 8px;
+    }
+
+    .car-location {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12px;
+        color: #6E6E73;
+        margin-top: 8px;
+        padding-top: 8px;
+        border-top: 1px solid #f0f0f0;
+    }
+
+    .car-location svg {
+        width: 14px;
+        height: 14px;
+    }
+
+    /* ========== RESPONSIVIDADE ========== */
+    @media (max-width: 768px) {
+        .hero-section {
+            padding: 40px 20px;
+            margin: 20px auto 40px;
+            border-radius: 16px;
+        }
+
+        .hero-content h1 {
+            font-size: 28px;
+        }
+
+        .hero-content p {
+            font-size: 16px;
+            margin-bottom: 25px;
+        }
+
+        .busca-hero form {
+            flex-direction: column;
+            border-radius: 12px;
+        }
+
+        .busca-hero input {
+            padding: 15px 18px;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .busca-hero button {
+            padding: 15px;
+            border-radius: 0 0 12px 12px;
+        }
+
+        .section-wrapper {
+            padding: 0 15px;
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 22px;
+        }
+
+        .section-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .marcas-grid {
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 15px;
+        }
+
+        .marca-card {
+            padding: 18px 12px;
+        }
+
+        .marca-card img {
+            width: 60px;
+            height: 60px;
+        }
+
+        .carros-grid {
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 18px;
+        }
+
+        .car-image-wrapper {
+            height: 160px;
+        }
+
+        .car-info {
+            padding: 15px;
+        }
+
+        .car-info h3 {
+            font-size: 17px;
+        }
+
+        .car-preco {
+            font-size: 20px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .hero-section {
+            padding: 30px 15px;
+        }
+
+        .hero-content h1 {
+            font-size: 24px;
+        }
+
+        .hero-content p {
+            font-size: 14px;
+        }
+
+        .section-title {
+            font-size: 20px;
+        }
+
+        .marcas-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .carros-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .car-image-wrapper {
+            height: 180px;
+        }
+
+        .car-info h3 {
+            font-size: 17px;
+        }
+
+        .car-preco {
+            font-size: 22px;
+        }
+
+        .car-meta-item {
+            font-size: 12px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- ========== HERO SECTION COM BUSCA ========== -->
+<div class="hero-section">
+    <div class="hero-content">
+        <!-- BUSCA NO TOPO -->
+        <div class="busca-hero">
+            <form method="get" action="{% url 'listar_carros' %}">
+                <input type="text" name="busca" placeholder="Buscar por modelo, marca, versão..." autocomplete="off">
+                <button type="submit">🔍 Buscar</button>
+            </form>
+        </div>
+
+        <!-- TÍTULO E DESCRIÇÃO -->
+        <h1>Encontre o carro ideal para você</h1>
+        <p>As melhores lojas e garagens da região estão aqui</p>
+    </div>
+</div>
+
+<!-- ========== MARCAS POPULARES ========== -->
+<div class="section-wrapper">
+    <div class="section-header">
+        <h2 class="section-title">Marcas populares</h2>
+        <a href="{% url 'listar_carros' %}" class="section-link">Ver todas →</a>
+    </div>
+
+    <div class="marcas-grid">
+        {% for marca in marcas %}
+        <a href="{% url 'listar_carros' %}?marca={{ marca.id }}" class="marca-card">
+            {% if marca.logo %}
+            <img src="{{ marca.logo.url }}" alt="{{ marca.nome }}">
+            {% else %}
+            <img src="{% static 'img/sem-logo.png' %}" alt="{{ marca.nome }}">
+            {% endif %}
+            <div>{{ marca.nome }}</div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- ========== ÚLTIMOS CARROS ========== -->
+<div class="section-wrapper">
+    <div class="section-header">
+        <h2 class="section-title">Últimos carros adicionados</h2>
+        <a href="{% url 'listar_carros' %}" class="section-link">Ver todos →</a>
+    </div>
+
+    <div class="carros-grid">
+        {% for carro in ultimos_carros %}
+        <a href="{% url 'detalhes_carro' carro.id %}" class="car-card">
+            <div class="car-image-wrapper">
+                {% if carro.foto_principal %}
+                <img src="{{ carro.foto_principal.url }}" alt="{{ carro.nome }}">
+                {% else %}
+                <img src="{% static 'img/sem-foto.png' %}" alt="{{ carro.nome }}">
+                {% endif %}
+                
+                <div class="car-badges">
+                    <span class="badge">{{ carro.ano }}</span>
+                    {% if carro.km %}
+                    <span class="badge">{{ carro.km|floatformat:0 }} km</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="car-info">
+                <h3>{{ carro.nome }}</h3>
+                
+                <div class="car-meta">
+                    <span class="car-meta-item">
+                        <i data-lucide="tag"></i>
+                        {{ carro.marca.nome }}
+                    </span>
+                    <span class="car-meta-item">
+                        <i data-lucide="fuel"></i>
+                        {{ carro.get_combustivel_display }}
+                    </span>
+                    <span class="car-meta-item">
+                        <i data-lucide="settings"></i>
+                        {{ carro.get_cambio_display }}
+                    </span>
+                </div>
+
+                <div class="car-preco">R$ {{ carro.preco }}</div>
+
+                {% if carro.loja.cidade %}
+                <div class="car-location">
+                    <i data-lucide="map-pin"></i>
+                    <span>{{ carro.loja.cidade.nome }} - {{ carro.loja.cidade.estado }}</span>
+                </div>
+                {% endif %}
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+{% block extra_scripts %}
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+    lucide.createIcons();
+</script>
+{% endblock %}
+
+{% endblock %}
+

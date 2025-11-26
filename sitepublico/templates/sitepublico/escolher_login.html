@@ -1,0 +1,127 @@
+{% extends "sitepublico/base_publico.html" %}
+{% load static %}
+
+{% block title %}Entrar — CarBusiness{% endblock %}
+
+{% block content %}
+
+<style>
+    .login-choice-container {
+        max-width: 500px;
+        margin: 60px auto;
+        padding: 0 20px;
+    }
+
+    .login-choice-card {
+        background: white;
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        border: 1px solid #e8e8e8;
+        text-align: center;
+    }
+
+    .login-choice-card h2 {
+        margin: 0 0 10px;
+        font-size: 28px;
+        font-weight: 800;
+        color: #1C1C1E;
+    }
+
+    .login-choice-card p {
+        margin: 0 0 30px;
+        color: #6E6E73;
+        font-size: 15px;
+    }
+
+    .login-options {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .login-option {
+        padding: 18px 24px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 16px;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .login-option.logista {
+        background: linear-gradient(135deg, #D7242A 0%, #B71C1C 100%);
+        color: white;
+        box-shadow: 0 4px 12px rgba(215, 36, 42, 0.3);
+    }
+
+    .login-option.logista:hover {
+        background: linear-gradient(135deg, #B71C1C 0%, #9a1515 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(215, 36, 42, 0.4);
+    }
+
+    .login-option.usuario {
+        background: #f8f9fa;
+        color: #1C1C1E;
+        border: 2px solid #e0e0e0;
+    }
+
+    .login-option.usuario:hover {
+        background: #e9ecef;
+        border-color: #D7242A;
+        color: #D7242A;
+        transform: translateY(-2px);
+    }
+
+    .back-link {
+        display: block;
+        margin-top: 20px;
+        color: #6E6E73;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .back-link:hover {
+        color: #D7242A;
+    }
+
+    @media (max-width: 480px) {
+        .login-choice-card {
+            padding: 30px 20px;
+        }
+
+        .login-choice-card h2 {
+            font-size: 24px;
+        }
+    }
+</style>
+
+<div class="login-choice-container">
+    <div class="login-choice-card">
+        <h2>Como deseja entrar?</h2>
+        <p>Escolha o tipo de acesso</p>
+
+        <div class="login-options">
+            <a href="{% url 'logistas:login' %}" class="login-option logista">
+                <span>🏪</span>
+                <span>Área do Logista</span>
+            </a>
+
+            <a href="{% url 'login_usuario' %}" class="login-option usuario">
+                <span>👤</span>
+                <span>Área do Usuário</span>
+            </a>
+        </div>
+
+        <a href="{% url 'home' %}" class="back-link">← Voltar ao site</a>
+    </div>
+</div>
+
+{% endblock %}
+

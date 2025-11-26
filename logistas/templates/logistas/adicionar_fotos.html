@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    .wrapper {
+        max-width: 900px;
+        margin: 35px auto;
+        font-family: Arial, sans-serif;
+    }
+
+    .card {
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        border: 1px solid #e5e5e5;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.07);
+    }
+
+    h2 {
+        margin-top: 0;
+        font-size: 26px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .fotos-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+
+    .foto-box {
+        width: 90px;
+        height: 90px;
+        position: relative;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid #ddd;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    .foto-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .foto-box a {
+        position: absolute;
+        top: -6px;
+        right: -6px;
+        width: 22px;
+        height: 22px;
+        background: red;
+        color: white;
+        border-radius: 50%;
+        text-align: center;
+        font-weight: bold;
+        line-height: 22px;
+        text-decoration: none;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+
+    .upload-area {
+        padding: 20px;
+        border: 2px dashed #ccc;
+        border-radius: 10px;
+        background: #fafafa;
+        text-align: center;
+        cursor: pointer;
+        transition: .2s;
+    }
+
+    .upload-area:hover {
+        background: #f0f8ff;
+        border-color: #007bff;
+    }
+
+    .upload-area input {
+        display: none;
+    }
+
+    .upload-area span {
+        font-size: 16px;
+        color: #555;
+    }
+
+    .submit-btn {
+        background: #28a745;
+        color: white;
+        padding: 12px 22px;
+        border: none;
+        border-radius: 8px;
+        font-size: 17px;
+        cursor: pointer;
+        margin-top: 15px;
+    }
+
+    .submit-btn:hover {
+        background: #1f8b3a;
+    }
+
+    .back-link {
+        margin-left: 14px;
+        color: #555;
+        font-size: 15px;
+    }
+</style>
+
+
+<div class="wrapper">
+    <div class="breadcrumb" style="margin-bottom:10px; font-size:14px; color:#666;">
+        <a href="{% url 'logistas:painel' %}" style="color:#007bff; text-decoration:none;">Painel</a>
+        &raquo;
+        {% if carro.loja %}
+            <span>{{ carro.loja.nome }}</span> &raquo;
+        {% endif %}
+        <span>Fotos de {{ carro.nome }}</span>
+    </div>
+
+    <div class="card">
+
+        <h2>Adicionar fotos ao veículo: <b>{{ carro.nome }}</b></h2>
+
+        <p style="margin-bottom:10px;">
+            Fotos existentes: <b>{{ carro.fotos.count }}/7</b>
+        </p>
+
+        <!-- FOTOS EXISTENTES -->
+        <div class="fotos-container">
+            {% for foto in carro.fotos.all %}
+                <div class="foto-box">
+                    <img src="{{ foto.imagem.url }}" alt="">
+                    <a href="{% url 'logistas:excluir_foto' foto.id %}" onclick="return confirm('Excluir esta foto?');">
+                        ×
+                    </a>
+                </div>
+            {% empty %}
+                <p>Nenhuma foto adicionada ainda.</p>
+            {% endfor %}
+        </div>
+
+        {% if fotos_restantes > 0 %}
+        <!-- FORM DE ENVIO -->
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <label class="upload-area">
+                <input type="file" name="fotos" multiple>
+                <span>📤 Clique aqui para selecionar até {{ fotos_restantes }} fotos</span>
+            </label>
+
+            <button type="submit" class="submit-btn">Enviar fotos</button>
+            <a href="{% url 'logistas:painel' %}" class="back-link">Voltar</a>
+        </form>
+
+        {% else %}
+            <p style="color:#c00; margin-top:20px;">
+                ⚠️ Seu veículo já possui o máximo de <b>7 fotos</b>.
+            </p>
+            <a href="{% url 'logistas:painel' %}" class="back-link">Voltar</a>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,182 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 — Página não encontrada | CarBusiness</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --cor-primaria: #D7242A;
+            --cor-primaria-dark: #B71C1C;
+            --cor-secundaria: #003F8C;
+            --cor-fundo: #F5F7FA;
+            --cor-texto: #1C1C1E;
+            --cor-texto-leve: #6E6E73;
+            --cor-branco: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background: var(--cor-fundo);
+            color: var(--cor-texto);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container-404 {
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .logo {
+            margin-bottom: 40px;
+        }
+
+        .logo img {
+            height: 60px;
+            object-fit: contain;
+        }
+
+        .numero-404 {
+            font-size: 120px;
+            font-weight: 900;
+            line-height: 1;
+            color: var(--cor-primaria);
+            margin-bottom: 20px;
+            text-shadow: 0 4px 20px rgba(215, 36, 42, 0.2);
+        }
+
+        .titulo {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            color: var(--cor-texto);
+        }
+
+        .mensagem {
+            font-size: 18px;
+            color: var(--cor-texto-leve);
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .botoes {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--cor-primaria);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--cor-primaria-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(215, 36, 42, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--cor-texto);
+            border: 2px solid #e0e0e0;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--cor-primaria);
+            color: var(--cor-primaria);
+            transform: translateY(-2px);
+        }
+
+        .ilustracao {
+            margin: 40px 0;
+            font-size: 80px;
+            opacity: 0.1;
+        }
+
+        @media (max-width: 600px) {
+            .numero-404 {
+                font-size: 80px;
+            }
+
+            .titulo {
+                font-size: 24px;
+            }
+
+            .mensagem {
+                font-size: 16px;
+            }
+
+            .botoes {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-404">
+        
+        <div class="logo">
+            <img src="{% static 'img/logo_carbusiness.png' %}" alt="CarBusiness">
+        </div>
+
+        <div class="numero-404">404</div>
+
+        <div class="ilustracao">🚗</div>
+
+        <h1 class="titulo">Página não encontrada</h1>
+
+        <p class="mensagem">
+            Ops! Parece que você tentou acessar uma página que não existe ou foi movida.
+            <br>
+            Que tal voltar para a página inicial e continuar navegando?
+        </p>
+
+        <div class="botoes">
+            <a href="{% url 'home' %}" class="btn btn-primary">
+                🏠 Voltar para a página inicial
+            </a>
+            <a href="{% url 'listar_carros' %}" class="btn btn-secondary">
+                🔍 Ver carros disponíveis
+            </a>
+        </div>
+
+    </div>
+</body>
+
+</html>
+

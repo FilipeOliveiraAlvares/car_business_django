@@ -1,0 +1,106 @@
+{% extends "sitepublico/base_publico.html" %}
+{% load static %}
+
+{% block title %}Login Logista — CarBusiness{% endblock %}
+
+{% block content %}
+{% with hide_header=True %}
+
+<style>
+    .login-container {
+        width: 100%;
+        max-width: 360px;
+        margin: 60px auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 0 14px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+
+    .login-container img {
+        width: 130px;
+        margin-bottom: 20px;
+    }
+
+    .login-container h2 {
+        font-size: 22px;
+        margin-bottom: 20px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .login-container label {
+        display: block;
+        margin-bottom: 6px;
+        text-align: left;
+        font-size: 14px;
+        font-weight: 600;
+        color: #444;
+    }
+
+    .login-container input {
+        width: 100%;
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        margin-bottom: 14px;
+        font-size: 15px;
+    }
+
+    .login-container button {
+        width: 100%;
+        padding: 12px;
+        background: #D7242A;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        color: #fff;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .login-container button:hover {
+        background: #B71C1C;
+    }
+
+    .back-link {
+        display: block;
+        margin-top: 18px;
+        font-size: 14px;
+        color: #444;
+        text-decoration: none;
+        font-weight: 600;
+    }
+</style>
+
+<div class="login-container">
+
+    <img src="{% static 'img/logo_carbusiness.png' %}" alt="CarBusiness">
+
+    <h2>Acesso do Logista</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {% if messages %}
+            {% for message in messages %}
+                <div style="background: #f8d7da; color: #721c24; padding: 10px; border-radius: 6px; margin-bottom: 15px; font-size: 14px;">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        <label>Usuário</label>
+        <input type="text" name="username" value="{{ request.GET.username|default:'' }}" required autofocus>
+
+        <label>Senha</label>
+        <input type="password" name="password" required>
+
+        <button type="submit">Entrar</button>
+    </form>
+
+    <a href="/" class="back-link">← Voltar ao site</a>
+
+</div>
+
+{% endwith %}
+{% endblock %}

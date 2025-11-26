@@ -1,0 +1,86 @@
+{% extends "sitepublico/base_publico.html" %}
+{% load static %}
+{% with hide_header=True %}
+
+{% block title %}Nenhuma Loja Vinculada — CarBusiness{% endblock %}
+
+{% block content %}
+
+<style>
+    .no-store-box {
+        max-width: 420px;
+        margin: 80px auto;
+        background: #fff;
+        padding: 35px;
+        border-radius: 18px;
+        box-shadow: 0 8px 28px rgba(0,0,0,0.10);
+        text-align: center;
+        border: 1px solid #eee;
+    }
+
+    .no-store-box img {
+        width: 140px;
+        opacity: .9;
+        margin-bottom: 18px;
+    }
+
+    .no-store-box h2 {
+        font-size: 24px;
+        font-weight: 800;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .no-store-box p {
+        font-size: 15px;
+        color: #666;
+        margin-bottom: 25px;
+    }
+
+    .logout-btn {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        background: #D7242A;
+        border: none;
+        border-radius: 10px;
+        font-size: 16px;
+        color: #fff;
+        font-weight: 700;
+        cursor: pointer;
+        transition: .2s;
+    }
+
+    .logout-btn:hover {
+        background: #B71C1C;
+    }
+
+    .back-link {
+        margin-top: 18px;
+        display: inline-block;
+        font-size: 14px;
+        color: #444;
+        text-decoration: none;
+        font-weight: 600;
+    }
+</style>
+
+<div class="no-store-box">
+
+    <img src="{% static 'img/logo_carbusiness.png' %}" alt="CarBusiness">
+
+    <h2>Nenhuma loja vinculada</h2>
+    <p>Parece que ainda não existe uma loja associada à sua conta.<br>
+    Entre em contato com o administrador para ativar seu acesso.</p>
+
+    <form method="post" action="{% url 'logistas:logout' %}">
+        {% csrf_token %}
+        <button class="logout-btn">Sair da conta</button>
+    </form>
+
+    <a href="/" class="back-link">← Voltar ao site</a>
+
+</div>
+
+{% endblock %}
+{% endwith %}

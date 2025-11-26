@@ -1,0 +1,321 @@
+{% extends "sitepublico/base_publico.html" %}
+{% load static %}
+
+{% block title %}Meu Painel — CarBusiness{% endblock %}
+
+{% block head %}
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+    body {
+        background: #f8f9fa;
+    }
+
+    /* ========== HERO SECTION ========== */
+    .hero-section {
+        background: linear-gradient(135deg, #D7242A 0%, #B71C1C 100%);
+        padding: 50px 20px;
+        text-align: center;
+        color: white;
+        margin-bottom: 40px;
+    }
+
+    .hero-section h1 {
+        font-size: 36px;
+        font-weight: 900;
+        margin: 0 0 8px;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .hero-section p {
+        font-size: 16px;
+        margin: 0;
+        opacity: 0.95;
+    }
+
+    /* ========== CONTAINER ========== */
+    .painel-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px 60px;
+    }
+
+    /* ========== GRID DE CARDS ========== */
+    .painel-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 24px;
+    }
+
+    .painel-card {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        border: 1px solid #e8e8e8;
+        padding: 28px;
+        text-decoration: none;
+        color: inherit;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .painel-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #D7242A, #B71C1C);
+        transform: scaleX(0);
+        transition: transform 0.3s;
+    }
+
+    .painel-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        border-color: #D7242A;
+    }
+
+    .painel-card:hover::before {
+        transform: scaleX(1);
+    }
+
+    .painel-card-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 16px;
+        background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+        color: #D7242A;
+    }
+
+    .painel-card-icon svg {
+        width: 28px;
+        height: 28px;
+    }
+
+    .painel-card h3 {
+        margin: 0 0 8px;
+        font-size: 22px;
+        font-weight: 800;
+        color: #1C1C1E;
+    }
+
+    .painel-card p {
+        color: #6E6E73;
+        font-size: 14px;
+        margin: 0;
+        line-height: 1.5;
+    }
+
+    .painel-card-count {
+        margin-top: 12px;
+        font-size: 13px;
+        color: #D7242A;
+        font-weight: 600;
+    }
+
+    /* Card de logout especial */
+    .logout-card {
+        background: linear-gradient(135deg, #ffeaea 0%, #ffd6d6 100%);
+        border-color: #ffcccc;
+    }
+
+    .logout-card .painel-card-icon {
+        background: linear-gradient(135deg, #ffcccc 0%, #ffb3b3 100%);
+        color: #d9534f;
+    }
+
+    .logout-card:hover {
+        border-color: #d9534f;
+    }
+
+    /* Card desabilitado */
+    .disabled-card {
+        opacity: 0.6;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+
+    .disabled-card .painel-card-icon {
+        background: #f0f0f0;
+        color: #999;
+    }
+
+    /* ========== ANIMAÇÕES ========== */
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* ========== RESPONSIVIDADE ========== */
+    @media (max-width: 768px) {
+        .hero-section {
+            padding: 40px 20px;
+            margin-bottom: 30px;
+        }
+
+        .hero-section h1 {
+            font-size: 28px;
+        }
+
+        .painel-container {
+            padding: 0 15px 40px;
+        }
+
+        .painel-grid {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .hero-section h1 {
+            font-size: 24px;
+        }
+
+        .painel-card {
+            padding: 24px;
+        }
+
+        .painel-card-icon {
+            width: 48px;
+            height: 48px;
+        }
+
+        .painel-card h3 {
+            font-size: 20px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+<div class="hero-section">
+    <h1>Olá, {{ request.user.username }} 👋</h1>
+    <p>Bem-vindo ao seu painel de usuário</p>
+</div>
+
+<div class="painel-container">
+    <!-- Mensagens de sucesso/erro -->
+    {% if messages %}
+    <div style="margin-bottom: 24px;">
+        {% for message in messages %}
+        <div class="alert-message alert-{{ message.tags }}" style="
+            padding: 16px 20px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            font-size: 15px;
+            animation: slideIn 0.3s ease-out;
+            {% if message.tags == 'success' %}
+                background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+                color: #155724;
+                border: 2px solid #28a745;
+            {% elif message.tags == 'error' %}
+                background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+                color: #721c24;
+                border: 2px solid #dc3545;
+            {% else %}
+                background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+                color: #0c5460;
+                border: 2px solid #17a2b8;
+            {% endif %}
+        ">
+            {% if message.tags == 'success' %}
+                <i data-lucide="check-circle" style="width: 24px; height: 24px;"></i>
+            {% elif message.tags == 'error' %}
+                <i data-lucide="alert-circle" style="width: 24px; height: 24px;"></i>
+            {% else %}
+                <i data-lucide="info" style="width: 24px; height: 24px;"></i>
+            {% endif %}
+            <span>{{ message }}</span>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- GRID DE CARDS -->
+    <div class="painel-grid">
+        
+        <!-- FAVORITOS -->
+        <a href="{% url 'favoritos' %}" class="painel-card">
+            <div class="painel-card-icon">
+                <i data-lucide="heart"></i>
+            </div>
+            <h3>Meus Favoritos</h3>
+            <p>Veja os carros que você salvou para consultar depois.</p>
+            {% if favoritos_count > 0 %}
+            <div class="painel-card-count">{{ favoritos_count }} favorito{{ favoritos_count|pluralize }}</div>
+            {% endif %}
+        </a>
+
+        <!-- HISTÓRICO -->
+        <a href="{% url 'historico_visualizacoes' %}" class="painel-card">
+            <div class="painel-card-icon">
+                <i data-lucide="clock"></i>
+            </div>
+            <h3>Histórico</h3>
+            <p>Carros que você visualizou recentemente.</p>
+            {% if historico_count > 0 %}
+            <div class="painel-card-count">{{ historico_count }} visualizado{{ historico_count|pluralize }}</div>
+            {% endif %}
+        </a>
+
+        <!-- EDITAR PERFIL -->
+        <a href="{% url 'editar_perfil' %}" class="painel-card">
+            <div class="painel-card-icon">
+                <i data-lucide="user"></i>
+            </div>
+            <h3>Meus Dados</h3>
+            <p>Atualizar usuário e informações pessoais.</p>
+        </a>
+
+        <!-- SAIR -->
+        <a href="{% url 'logout_usuario' %}" class="painel-card logout-card">
+            <div class="painel-card-icon">
+                <i data-lucide="log-out"></i>
+            </div>
+            <h3>Sair</h3>
+            <p>Encerrar sessão com segurança.</p>
+        </a>
+
+    </div>
+</div>
+
+<script>
+    lucide.createIcons();
+    
+    // Auto-remove mensagens após 5 segundos
+    document.addEventListener('DOMContentLoaded', function() {
+        const alerts = document.querySelectorAll('.alert-message');
+        alerts.forEach(function(alert) {
+            setTimeout(function() {
+                alert.style.transition = 'opacity 0.5s ease-out';
+                alert.style.opacity = '0';
+                setTimeout(function() {
+                    alert.remove();
+                }, 500);
+            }, 5000);
+        });
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends "sitepublico/base_publico.html" %}
+{% load static %}
+
+{% block title %}Categorias de Veículos — CarBusiness{% endblock %}
+
+{% block head %}
+<style>
+
+    body {
+        background: #f7f7f7;
+    }
+
+    .categoria-container {
+        max-width: 1250px;
+        margin: 25px auto;
+        padding: 0 15px;
+    }
+
+    .titulo {
+        font-size: 28px;
+        font-weight: 900;
+        margin-bottom: 25px;
+        color: #222;
+    }
+
+    .grid-categorias {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 25px;
+    }
+
+    .cat-card {
+        background: white;
+        border-radius: 14px;
+        padding: 25px;
+        text-align: center;
+        box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+        border: 1px solid #eee;
+        cursor: pointer;
+        text-decoration: none;
+        color: inherit;
+        transition: .2s ease;
+    }
+
+    .cat-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 6px 22px rgba(0,0,0,0.12);
+    }
+
+    .cat-card img {
+        width: 85px;
+        height: 85px;
+        object-fit: contain;
+        margin-bottom: 15px;
+        opacity: 0.9;
+    }
+
+    .cat-card h3 {
+        margin: 0;
+        font-size: 22px;
+        font-weight: 700;
+        color: #333;
+    }
+
+    .cat-card p {
+        margin-top: 8px;
+        color: #777;
+    }
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<nav class="breadcrumb">
+    <a href="{% url 'home' %}">Início</a> &raquo;
+    <span>Categorias</span>
+</nav>
+
+<div class="categoria-container">
+
+    <h1 class="titulo">Categorias de Veículos</h1>
+
+    <div class="grid-categorias">
+
+        {% for categoria in categorias %}
+        <a href="{% url 'listar_carros' %}?categoria={{ categoria.id }}" class="cat-card">
+
+            {% if categoria.imagem %}
+                <img src="{{ categoria.imagem.url }}" alt="{{ categoria.nome }}">
+            {% else %}
+                <!-- Ícone padrão se não tiver imagem -->
+                <img src="{% static 'img/categorias/default-category.png' %}" alt="Categoria">
+            {% endif %}
+
+            <h3>{{ categoria.nome }}</h3>
+            <p>Veja todos os veículos desta categoria</p>
+        </a>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

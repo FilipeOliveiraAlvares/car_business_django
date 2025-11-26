@@ -1,0 +1,557 @@
+{% extends "sitepublico/base_publico.html" %}
+{% load static %}
+
+{% block title %}Painel do Logista — CarBusiness{% endblock %}
+
+{% block content %}
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+    body {
+        background: #F5F7FA;
+        font-family: "Inter", sans-serif;
+    }
+
+    /* ========== HERO SECTION ========== */
+    .hero-section {
+        background: linear-gradient(135deg, #D7242A 0%, #B71C1C 100%);
+        padding: 50px 20px;
+        text-align: center;
+        color: white;
+        margin-bottom: 40px;
+        box-shadow: 0 4px 20px rgba(215, 36, 42, 0.2);
+    }
+
+    .hero-section h1 {
+        font-size: 36px;
+        font-weight: 900;
+        margin: 0 0 8px;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .hero-section p {
+        font-size: 16px;
+        margin: 0;
+        opacity: 0.95;
+    }
+
+    .hero-actions {
+        margin-top: 20px;
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .hero-btn {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        color: white;
+        padding: 10px 20px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        transition: all 0.3s;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .hero-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+        border-color: rgba(255, 255, 255, 0.5);
+        transform: translateY(-2px);
+    }
+
+    .dashboard-wrapper {
+        max-width: 1250px;
+        margin: 0 auto;
+        padding: 0 20px 60px;
+    }
+
+    .loja-card {
+        background: white;
+        padding: 28px;
+        border-radius: 20px;
+        border: 1px solid #f0f0f0;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .loja-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        padding-bottom: 20px;
+        border-bottom: 3px solid #D7242A;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .loja-title h3 {
+        margin: 0;
+        font-size: 26px;
+        font-weight: 800;
+        color: #1C1C1E;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .loja-title h3::before {
+        content: '';
+        width: 4px;
+        height: 30px;
+        background: linear-gradient(135deg, #D7242A 0%, #B71C1C 100%);
+        border-radius: 2px;
+    }
+
+    .loja-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .loja-actions a {
+        padding: 10px 18px;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        border-radius: 10px;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .loja-actions a:first-child {
+        background: linear-gradient(135deg, #f0f7ff 0%, #e0efff 100%);
+        color: #0066ff;
+        border: 1px solid #cce5ff;
+    }
+
+    .loja-actions a:first-child:hover {
+        background: linear-gradient(135deg, #e0efff 0%, #d0dfff 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 102, 255, 0.2);
+    }
+
+    .loja-actions a:last-child {
+        background: linear-gradient(135deg, #D7242A 0%, #B71C1C 100%);
+        color: white;
+        border: none;
+        box-shadow: 0 4px 12px rgba(215, 36, 42, 0.3);
+    }
+
+    .loja-actions a:last-child:hover {
+        background: linear-gradient(135deg, #B71C1C 0%, #9a1515 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(215, 36, 42, 0.4);
+    }
+
+    .carros-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 24px;
+        margin-top: 20px;
+    }
+
+    .carro-card {
+        background: white;
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid #f0f0f0;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .carro-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .carro-image-wrapper {
+        position: relative;
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+        background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+    }
+
+    .carro-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s;
+    }
+
+    .carro-card:hover img {
+        transform: scale(1.1);
+    }
+
+    .carro-badges {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+    }
+
+    .badge {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(8px);
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 700;
+        color: #1C1C1E;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .carro-info {
+        padding: 18px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .carro-info h4 {
+        margin: 0 0 8px;
+        font-size: 19px;
+        font-weight: 700;
+        color: #1C1C1E;
+        line-height: 1.3;
+    }
+
+    .carro-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+    }
+
+    .carro-meta-item {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 13px;
+        color: #6E6E73;
+    }
+
+    .carro-meta-item svg {
+        width: 14px;
+        height: 14px;
+        opacity: 0.7;
+    }
+
+    .carro-price {
+        font-size: 26px;
+        font-weight: 900;
+        color: #D7242A;
+        margin-top: auto;
+        margin-bottom: 12px;
+    }
+
+    .editar-links {
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid #f0f0f0;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+
+    .editar-links a {
+        padding: 8px 12px;
+        font-size: 13px;
+        text-decoration: none;
+        font-weight: 600;
+        border-radius: 8px;
+        text-align: center;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+    }
+
+    .editar-links a:nth-child(1) {
+        background: linear-gradient(135deg, #f0f7ff 0%, #e0efff 100%);
+        color: #0066ff;
+        border: 1px solid #cce5ff;
+    }
+
+    .editar-links a:nth-child(1):hover {
+        background: linear-gradient(135deg, #e0efff 0%, #d0dfff 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 102, 255, 0.2);
+    }
+
+    .editar-links a:nth-child(2) {
+        background: linear-gradient(135deg, #fff4e6 0%, #ffe6cc 100%);
+        color: #ff8800;
+        border: 1px solid #ffd9b3;
+    }
+
+    .editar-links a:nth-child(2):hover {
+        background: linear-gradient(135deg, #ffe6cc 0%, #ffd9b3 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 136, 0, 0.2);
+    }
+
+    .editar-links a:nth-child(3) {
+        background: linear-gradient(135deg, #f0fff4 0%, #e0ffe0 100%);
+        color: #008000;
+        border: 1px solid #b3ffb3;
+    }
+
+    .editar-links a:nth-child(3):hover {
+        background: linear-gradient(135deg, #e0ffe0 0%, #d0ffd0 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 128, 0, 0.2);
+    }
+
+    .editar-links a:nth-child(4) {
+        background: linear-gradient(135deg, #ffeaea 0%, #ffd5d5 100%);
+        color: #d9534f;
+        grid-column: 1 / -1;
+        border: 1px solid #ffb3b3;
+    }
+
+    .editar-links a:nth-child(4):hover {
+        background: linear-gradient(135deg, #ffd5d5 0%, #ffc0c0 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(217, 83, 79, 0.2);
+    }
+
+    .add-carro-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 12px;
+        font-size: 15px;
+        color: white;
+        font-weight: 700;
+        text-decoration: none;
+        padding: 12px 20px;
+        background: linear-gradient(135deg, #D7242A 0%, #B71C1C 100%);
+        border-radius: 10px;
+        transition: all 0.3s;
+        box-shadow: 0 4px 12px rgba(215, 36, 42, 0.3);
+    }
+
+    .add-carro-btn:hover {
+        background: linear-gradient(135deg, #B71C1C 0%, #9a1515 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(215, 36, 42, 0.4);
+    }
+
+    /* ========== RESPONSIVIDADE ========== */
+    @media (max-width: 768px) {
+        .hero-section {
+            padding: 40px 20px;
+            margin-bottom: 30px;
+        }
+
+        .hero-section h1 {
+            font-size: 28px;
+        }
+
+        .dashboard-wrapper {
+            padding: 0 15px 40px;
+        }
+
+        .loja-card {
+            padding: 20px;
+        }
+
+        .loja-title {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .loja-title h3 {
+            font-size: 22px;
+        }
+
+        .loja-actions {
+            width: 100%;
+        }
+
+        .loja-actions a {
+            flex: 1;
+            justify-content: center;
+        }
+
+        .carros-container {
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .carro-image-wrapper {
+            height: 180px;
+        }
+
+        .carro-info {
+            padding: 15px;
+        }
+
+        .carro-info h4 {
+            font-size: 17px;
+        }
+
+        .carro-price {
+            font-size: 22px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .dashboard-header h2 {
+            font-size: 22px;
+        }
+
+        .loja-title h3 {
+            font-size: 20px;
+        }
+
+        .carros-container {
+            grid-template-columns: 1fr;
+        }
+
+        .carro-image-wrapper {
+            height: 200px;
+        }
+
+        .editar-links {
+            grid-template-columns: 1fr;
+        }
+
+        .editar-links a:nth-child(4) {
+            grid-column: 1;
+        }
+    }
+</style>
+
+<!-- HERO SECTION -->
+<div class="hero-section">
+    <h1>Painel do Logista</h1>
+    <p>Bem-vindo(a), {{ request.user.username }} 👋</p>
+    <div class="hero-actions">
+        <a href="/" class="hero-btn">
+            <i data-lucide="home"></i>
+            Ver Site
+        </a>
+        <form method="post" action="{% url 'logistas:logout' %}" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="hero-btn" style="cursor: pointer;">
+                <i data-lucide="log-out"></i>
+                Sair
+            </button>
+        </form>
+    </div>
+</div>
+
+<div class="dashboard-wrapper">
+
+    {% for loja in lojas %}
+    <div class="loja-card">
+
+        <!-- TÍTULO DA LOJA -->
+        <div class="loja-title">
+            <h3>{{ loja.nome }}{% if loja.cidade %} — {{ loja.cidade }}{% endif %}</h3>
+
+            <div class="loja-actions">
+                <a href="{% url 'logistas:editar_loja' loja.id %}">
+                    <i data-lucide="edit"></i>
+                    Editar loja
+                </a>
+                <a href="{% url 'logistas:adicionar_carro' loja.id %}">
+                    <i data-lucide="plus"></i>
+                    Adicionar carro
+                </a>
+            </div>
+        </div>
+
+        <!-- LISTA DE CARROS -->
+        <div class="carros-container">
+
+            {% for carro in loja.carros_com_fotos %}
+            <div class="carro-card">
+
+                <div class="carro-image-wrapper">
+                    {% if carro.foto_principal %}
+                    <img src="{{ carro.foto_principal.url }}" alt="{{ carro.nome }}">
+                    {% else %}
+                    <img src="https://via.placeholder.com/400x200?text=Sem+Imagem" alt="{{ carro.nome }}">
+                    {% endif %}
+
+                    <div class="carro-badges">
+                        <span class="badge">{{ carro.ano }}</span>
+                        {% if carro.km %}
+                        <span class="badge">{{ carro.km|floatformat:0 }} km</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="carro-info">
+                    <h4>{{ carro.nome }}</h4>
+
+                    <div class="carro-meta">
+                        <span class="carro-meta-item">
+                            <i data-lucide="tag"></i>
+                            {{ carro.marca.nome }}
+                        </span>
+                        <span class="carro-meta-item">
+                            <i data-lucide="fuel"></i>
+                            {{ carro.get_combustivel_display }}
+                        </span>
+                        <span class="carro-meta-item">
+                            <i data-lucide="settings"></i>
+                            {{ carro.get_cambio_display }}
+                        </span>
+                    </div>
+
+                    <div class="carro-price">R$ {{ carro.preco }}</div>
+
+                    <div class="editar-links">
+                        <a href="{% url 'logistas:editar_carro' carro.id %}">
+                            <i data-lucide="edit"></i>
+                            Editar
+                        </a>
+                        <a href="{% url 'logistas:adicionar_fotos' carro.id %}">
+                            <i data-lucide="camera"></i>
+                            Fotos
+                        </a>
+                        <a href="{% url 'detalhes_carro' carro.id %}" target="_blank" rel="noopener">
+                            <i data-lucide="eye"></i>
+                            Ver anúncio
+                        </a>
+                        <a href="{% url 'logistas:excluir_carro' carro.id %}" onclick="return confirm('Tem certeza que deseja excluir este veículo? Esta ação não pode ser desfeita.');">
+                            <i data-lucide="trash-2"></i>
+                            Excluir
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+
+    </div>
+    {% endfor %}
+
+</div>
+
+<script>
+    lucide.createIcons();
+</script>
+
+{% endblock %}

@@ -1,0 +1,808 @@
+{% extends "sitepublico/base_publico.html" %}
+{% load static %}
+
+{% block title %}Adicionar Veículo — CarBusiness{% endblock %}
+
+{% block content %}
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+    body {
+        background: #F5F7FA;
+        font-family: "Inter", sans-serif;
+    }
+
+    /* ========== HERO SECTION ========== */
+    .hero-section {
+        background: linear-gradient(135deg, #D7242A 0%, #B71C1C 100%);
+        padding: 40px 20px;
+        text-align: center;
+        color: white;
+        margin-bottom: 40px;
+        box-shadow: 0 4px 20px rgba(215, 36, 42, 0.2);
+    }
+
+    .hero-section h1 {
+        font-size: 32px;
+        font-weight: 900;
+        margin: 0 0 8px;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .hero-section p {
+        font-size: 15px;
+        margin: 0;
+        opacity: 0.95;
+    }
+
+    /* ========== FORM CONTAINER ========== */
+    .form-wrapper {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 0 20px 60px;
+    }
+
+    .card {
+        background: white;
+        padding: 35px;
+        border-radius: 20px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        margin-bottom: 25px;
+        border: 1px solid #e8e8e8;
+    }
+
+    .card h3 {
+        margin-top: 0;
+        font-size: 22px;
+        font-weight: 800;
+        color: #1C1C1E;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 3px solid #D7242A;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .card h3::before {
+        content: '';
+        width: 4px;
+        height: 24px;
+        background: linear-gradient(135deg, #D7242A 0%, #B71C1C 100%);
+        border-radius: 2px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 18px;
+    }
+
+    .form-group label {
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #1C1C1E;
+        font-size: 14px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 12px 16px;
+        font-size: 15px;
+        border-radius: 10px;
+        border: 2px solid #e0e0e0;
+        width: 100%;
+        box-sizing: border-box;
+        background: #fafafa;
+        transition: all 0.3s;
+        font-family: "Inter", sans-serif;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        background: white;
+        border-color: #D7242A;
+        box-shadow: 0 0 0 3px rgba(215, 36, 42, 0.1);
+        outline: none;
+    }
+
+    .form-group small {
+        display: block;
+        margin-top: 6px;
+        color: #6E6E73;
+        font-size: 13px;
+    }
+
+    .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .grid-3 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 20px;
+    }
+
+    .btn-area {
+        margin-top: 30px;
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .submit-btn {
+        padding: 14px 32px;
+        background: linear-gradient(135deg, #D7242A 0%, #B71C1C 100%);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s;
+        box-shadow: 0 4px 12px rgba(215, 36, 42, 0.3);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .submit-btn:hover {
+        background: linear-gradient(135deg, #B71C1C 0%, #9a1515 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(215, 36, 42, 0.4);
+    }
+
+    .back-link {
+        padding: 14px 32px;
+        background: white;
+        color: #6E6E73;
+        font-weight: 600;
+        border: 2px solid #e0e0e0;
+        border-radius: 12px;
+        text-decoration: none;
+        font-size: 16px;
+        transition: all 0.3s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .back-link:hover {
+        border-color: #D7242A;
+        color: #D7242A;
+        transform: translateY(-2px);
+    }
+
+    /* Preview de imagens */
+    .image-preview-wrapper {
+        margin-top: 12px;
+    }
+
+    .image-preview {
+        max-width: 300px;
+        max-height: 300px;
+        border-radius: 8px;
+        border: 2px solid #ddd;
+        object-fit: cover;
+        margin-top: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .preview-placeholder {
+        width: 300px;
+        height: 200px;
+        border: 2px dashed #ddd;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #999;
+        font-size: 14px;
+        margin-top: 10px;
+        background: #f9f9f9;
+    }
+
+    .fotos-preview-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 12px;
+        margin-top: 12px;
+    }
+
+    .foto-preview-item {
+        position: relative;
+        width: 120px;
+        height: 120px;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 2px solid #ddd;
+    }
+
+    .foto-preview-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .foto-preview-item .remove-preview {
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        background: rgba(255, 0, 0, 0.8);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
+    }
+
+    .foto-preview-item .remove-preview:hover {
+        background: rgba(255, 0, 0, 1);
+    }
+
+    /* ========== RESPONSIVIDADE ========== */
+    @media (max-width: 768px) {
+        .hero-section {
+            padding: 30px 20px;
+            margin-bottom: 30px;
+        }
+
+        .hero-section h1 {
+            font-size: 26px;
+        }
+
+        .form-wrapper {
+            padding: 0 15px 40px;
+        }
+
+        .card {
+            padding: 25px;
+        }
+
+        .card h3 {
+            font-size: 20px;
+        }
+
+        .grid-2, .grid-3 {
+            grid-template-columns: 1fr;
+        }
+
+        .btn-area {
+            flex-direction: column;
+        }
+
+        .submit-btn,
+        .back-link {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .hero-section h1 {
+            font-size: 22px;
+        }
+
+        .card {
+            padding: 20px;
+        }
+
+        .form-group label {
+            font-size: 14px;
+        }
+    }
+</style>
+
+
+<!-- HERO SECTION -->
+<div class="hero-section">
+    <h1>Adicionar Veículo</h1>
+    <p>Preencha as informações do seu veículo</p>
+</div>
+
+<div class="form-wrapper">
+    <div class="breadcrumb" style="margin-bottom: 20px; font-size: 14px; color: #666;">
+        <a href="{% url 'logistas:painel' %}" style="color: #D7242A; text-decoration: none; font-weight: 600;">Painel</a>
+        &raquo;
+        <span>Adicionar veículo</span>
+    </div>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- CARD 1 — Informações gerais -->
+        <div class="card">
+            <h3>
+                <i data-lucide="car"></i>
+                Informações Principais
+            </h3>
+
+            <div class="form-group">
+                <label>Marca</label>
+                {{ form.marca }}
+            </div>
+
+            <div class="grid-2">
+                <div class="form-group">
+                    <label>Modelo</label>
+                    {{ form.modelo }}
+                </div>
+
+                <div class="form-group">
+                    <label>Versão</label>
+                    {{ form.versao }}
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 2 — Detalhes -->
+        <div class="card">
+            <h3>
+                <i data-lucide="settings"></i>
+                Detalhes do Veículo
+            </h3>
+
+            <div class="grid-3">
+                <div class="form-group">
+                    <label>Nome de exibição</label>
+                    {{ form.nome }}
+                </div>
+
+                <div class="form-group">
+                    <label>Ano</label>
+                    {{ form.ano }}
+                </div>
+
+                <div class="form-group">
+                    <label>Km rodados</label>
+                    {{ form.km }}
+                </div>
+            </div>
+
+            <div class="grid-3">
+                <div class="form-group">
+                    <label>Cor</label>
+                    {{ form.cor }}
+                </div>
+
+                <div class="form-group">
+                    <label>Portas</label>
+                    {{ form.portas }}
+                </div>
+
+                <div class="form-group">
+                    <label>Combustível</label>
+                    {{ form.combustivel }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Câmbio</label>
+                {{ form.cambio }}
+            </div>
+
+            <div class="form-group">
+                <label>Preço</label>
+                {{ form.preco }}
+            </div>
+
+            <div class="form-group">
+                <label>Descrição</label>
+                {{ form.descricao }}
+            </div>
+        </div>
+
+        <!-- CARD 3 — Fotos -->
+        <div class="card">
+            <h3>
+                <i data-lucide="camera"></i>
+                Fotos do Veículo
+            </h3>
+            
+            <div style="background: #e7f3ff; border-left: 4px solid #2196F3; padding: 12px; margin-bottom: 20px; border-radius: 4px; font-size: 13px;">
+                <strong>💡 Sobre a qualidade das imagens:</strong>
+                <ul style="margin: 8px 0 0 20px; padding: 0;">
+                    <li><strong>Mínimo obrigatório:</strong> 850px na menor dimensão</li>
+                    <li><strong>Recomendado para melhor qualidade:</strong> 1200px+ na menor dimensão</li>
+                    <li>Fotos com qualidade baixa (850-1200px) serão aceitas, mas podem não ter a melhor aparência em telas Retina</li>
+                </ul>
+            </div>
+
+            <div class="form-group">
+                <label>Foto principal <span style="color: #d9534f;">*</span></label>
+                {{ form.foto_principal }}
+                {% if form.foto_principal.help_text %}
+                <small style="color: #666; font-size: 13px; display: block; margin-top: 5px;">{{ form.foto_principal.help_text }}</small>
+                {% endif %}
+                {% if form.foto_principal.errors %}
+                <div style="color: #d9534f; font-size: 13px; margin-top: 5px;">
+                    {{ form.foto_principal.errors }}
+                </div>
+                {% endif %}
+                <div class="image-preview-wrapper" id="previewPrincipal">
+                    <div class="preview-placeholder">Nenhuma imagem selecionada</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Fotos adicionais (até 7)</label>
+                <input type="file" name="fotos" multiple id="fotosExtras" accept="image/*">
+                <div class="fotos-preview-grid" id="previewFotosExtras"></div>
+                <div id="errosFotosExtras" style="margin-top: 10px; color: #d9534f; font-size: 13px;"></div>
+            </div>
+        </div>
+
+        <div class="btn-area">
+            <button type="submit" class="submit-btn">
+                <i data-lucide="save"></i>
+                Salvar Veículo
+            </button>
+            <a href="{% url 'logistas:painel' %}" class="back-link">
+                <i data-lucide="x"></i>
+                Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+
+
+<!-- Scripts -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    lucide.createIcons();
+
+    // AJAX dos selects dinâmicos
+    document.getElementById("id_marca").addEventListener("change", function () {
+    const marcaId = this.value;
+
+    fetch(`/api/modelos/${marcaId}/`)
+        .then(res => res.json())
+        .then(data => {
+            const modeloSelect = document.getElementById("id_modelo");
+            modeloSelect.innerHTML = "<option value=''>Selecione</option>";
+
+            data.modelos.forEach(m => {
+                modeloSelect.innerHTML += `<option value="${m.id}">${m.nome}</option>`;
+            });
+
+            document.getElementById("id_versao").innerHTML = "<option value=''>Selecione um modelo</option>";
+        });
+});
+
+document.getElementById("id_modelo").addEventListener("change", function () {
+    const modeloId = this.value;
+
+    fetch(`/api/versoes/${modeloId}/`)
+        .then(res => res.json())
+        .then(data => {
+            const versaoSelect = document.getElementById("id_versao");
+            versaoSelect.innerHTML = "<option value=''>Selecione</option>";
+
+            data.versoes.forEach(v => {
+                versaoSelect.innerHTML += `<option value="${v.id}">${v.nome}</option>`;
+            });
+        });
+});
+
+// ========== PREVIEW DE IMAGENS ==========
+// Preview da foto principal
+const fotoPrincipalInput = document.getElementById("id_foto_principal");
+const previewPrincipal = document.getElementById("previewPrincipal");
+
+if (fotoPrincipalInput) {
+    fotoPrincipalInput.addEventListener("change", function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const largura = img.width;
+                    const altura = img.height;
+                    const menorDimensao = Math.min(largura, altura);
+                    
+                    let qualidadeBadge = '';
+                    if (menorDimensao < 850) {
+                        qualidadeBadge = '<div style="background: #d9534f; color: white; padding: 6px; border-radius: 4px; margin-top: 8px; font-size: 12px; text-align: center;">❌ Inválida: Mínimo 850px</div>';
+                    } else if (menorDimensao < 1200) {
+                        qualidadeBadge = '<div style="background: #f0ad4e; color: white; padding: 6px; border-radius: 4px; margin-top: 8px; font-size: 12px; text-align: center;">⚠️ Qualidade baixa: Recomendado 1200px+ (atual: ' + menorDimensao + 'px)</div>';
+                    } else {
+                        qualidadeBadge = '<div style="background: #5cb85c; color: white; padding: 6px; border-radius: 4px; margin-top: 8px; font-size: 12px; text-align: center;">✓ Excelente qualidade (' + menorDimensao + 'px)</div>';
+                    }
+                    
+                    previewPrincipal.innerHTML = `<img src="${e.target.result}" class="image-preview" alt="Preview">${qualidadeBadge}`;
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        } else {
+            previewPrincipal.innerHTML = '<div class="preview-placeholder">Nenhuma imagem selecionada</div>';
+        }
+    });
+}
+
+// Preview das fotos extras
+const fotosExtrasInput = document.getElementById("fotosExtras");
+const previewFotosExtras = document.getElementById("previewFotosExtras");
+const errosFotosExtras = document.getElementById("errosFotosExtras");
+let fotosPreview = [];
+
+if (fotosExtrasInput) {
+    fotosExtrasInput.addEventListener("change", function(e) {
+        const files = Array.from(e.target.files);
+        previewFotosExtras.innerHTML = "";
+        errosFotosExtras.innerHTML = "";
+        fotosPreview = [];
+        const erros = [];
+
+        files.forEach((file, index) => {
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const largura = img.width;
+                        const altura = img.height;
+                        const menorDimensao = Math.min(largura, altura);
+                        const proporcao = largura / altura;
+                        
+                        let erro = null;
+                        let aviso = null;
+                        let qualidade = 'ok'; // 'ok', 'baixa', 'excelente'
+                        
+                        // Valida tamanho mínimo (obrigatório)
+                        if (menorDimensao < 850) {
+                            erro = `Foto ${index + 1}: Mínimo 850px na menor dimensão (atual: ${menorDimensao}px)`;
+                            qualidade = 'invalida';
+                        }
+                        // Aviso de qualidade (não bloqueia, apenas informa)
+                        else if (menorDimensao < 1200) {
+                            aviso = `Recomendado: 1200px+ para melhor qualidade (atual: ${menorDimensao}px)`;
+                            qualidade = 'baixa';
+                        }
+                        // Qualidade excelente
+                        else {
+                            qualidade = 'excelente';
+                        }
+                        
+                        // Valida proporção
+                        if (proporcao < 1.0 || proporcao > 2.0) {
+                            erro = `Foto ${index + 1}: Proporção deve estar entre 1:1 e 2:1 (atual: ${proporcao.toFixed(2)}:1)`;
+                            qualidade = 'invalida';
+                        }
+                        
+                        const div = document.createElement('div');
+                        div.className = 'foto-preview-item';
+                        
+                        if (erro) {
+                            // Foto inválida (bloqueia salvamento)
+                            erros.push(erro);
+                            div.style.borderColor = '#d9534f';
+                            div.style.borderWidth = '3px';
+                            div.innerHTML = `
+                                <img src="${e.target.result}" alt="Preview ${index + 1}" style="opacity: 0.5;">
+                                <button type="button" class="remove-preview" onclick="removerFotoPreview(${fotosPreview.length})" title="Remover">×</button>
+                                <div style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(217, 83, 79, 0.9); color: white; padding: 4px; font-size: 10px; text-align: center;">Inválida</div>
+                            `;
+                        } else if (qualidade === 'baixa') {
+                            // Foto válida mas com qualidade baixa (aviso amarelo)
+                            div.style.borderColor = '#f0ad4e';
+                            div.style.borderWidth = '2px';
+                            div.innerHTML = `
+                                <img src="${e.target.result}" alt="Preview ${index + 1}">
+                                <button type="button" class="remove-preview" onclick="removerFotoPreview(${fotosPreview.length})" title="Remover">×</button>
+                                <div style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(240, 173, 78, 0.9); color: white; padding: 4px; font-size: 10px; text-align: center;">⚠️ Qualidade baixa</div>
+                            `;
+                        } else if (qualidade === 'excelente') {
+                            // Foto com qualidade excelente (badge verde)
+                            div.innerHTML = `
+                                <img src="${e.target.result}" alt="Preview ${index + 1}">
+                                <button type="button" class="remove-preview" onclick="removerFotoPreview(${fotosPreview.length})" title="Remover">×</button>
+                                <div style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(92, 184, 92, 0.9); color: white; padding: 4px; font-size: 10px; text-align: center;">✓ Excelente</div>
+                            `;
+                        } else {
+                            // Foto válida (sem avisos)
+                            div.innerHTML = `
+                                <img src="${e.target.result}" alt="Preview ${index + 1}">
+                                <button type="button" class="remove-preview" onclick="removerFotoPreview(${fotosPreview.length})" title="Remover">×</button>
+                            `;
+                        }
+                        
+                        previewFotosExtras.appendChild(div);
+                        
+                        // Adiciona aviso à lista se houver
+                        if (aviso) {
+                            erros.push(`💡 ${aviso}`);
+                        }
+                        
+                        fotosPreview.push({ 
+                            file: file, 
+                            dataUrl: e.target.result, 
+                            valida: !erro,
+                            qualidade: qualidade 
+                        });
+                        
+                        // Atualiza mensagens de erro
+                        if (erros.length > 0) {
+                            errosFotosExtras.innerHTML = '<strong>⚠️ Erros encontrados:</strong><ul style="margin: 5px 0; padding-left: 20px;">' + 
+                                erros.map(e => `<li>${e}</li>`).join('') + 
+                                '</ul><p style="margin-top: 5px; font-weight: 600;">Remova as fotos inválidas antes de salvar.</p>';
+                        }
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            } else {
+                erros.push(`Arquivo ${index + 1}: Não é uma imagem válida`);
+            }
+        });
+        
+        if (files.length > 0 && erros.length === 0 && files.every(f => f.type.startsWith('image/'))) {
+            // Validação será feita quando as imagens carregarem
+        } else if (files.some(f => !f.type.startsWith('image/'))) {
+            errosFotosExtras.innerHTML = '<strong>⚠️ Erro:</strong> Apenas arquivos de imagem são permitidos.';
+        }
+    });
+}
+
+function removerFotoPreview(index) {
+    fotosPreview.splice(index, 1);
+    atualizarPreviewFotosExtras();
+    atualizarInputFotos();
+}
+
+function atualizarPreviewFotosExtras() {
+    previewFotosExtras.innerHTML = "";
+    fotosPreview.forEach((foto, index) => {
+        const div = document.createElement('div');
+        div.className = 'foto-preview-item';
+        
+        // Aplica estilos baseado na qualidade da foto
+        if (!foto.valida) {
+            // Foto inválida (bloqueia salvamento)
+            div.style.borderColor = '#d9534f';
+            div.style.borderWidth = '3px';
+            div.innerHTML = `
+                <img src="${foto.dataUrl}" alt="Preview ${index + 1}" style="opacity: 0.5;">
+                <button type="button" class="remove-preview" onclick="removerFotoPreview(${index})" title="Remover">×</button>
+                <div style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(217, 83, 79, 0.9); color: white; padding: 4px; font-size: 10px; text-align: center;">Inválida</div>
+            `;
+        } else if (foto.qualidade === 'baixa') {
+            // Foto válida mas com qualidade baixa (aviso amarelo)
+            div.style.borderColor = '#f0ad4e';
+            div.style.borderWidth = '2px';
+            div.innerHTML = `
+                <img src="${foto.dataUrl}" alt="Preview ${index + 1}">
+                <button type="button" class="remove-preview" onclick="removerFotoPreview(${index})" title="Remover">×</button>
+                <div style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(240, 173, 78, 0.9); color: white; padding: 4px; font-size: 10px; text-align: center;">⚠️ Qualidade baixa</div>
+            `;
+        } else if (foto.qualidade === 'excelente') {
+            // Foto com qualidade excelente (badge verde)
+            div.innerHTML = `
+                <img src="${foto.dataUrl}" alt="Preview ${index + 1}">
+                <button type="button" class="remove-preview" onclick="removerFotoPreview(${index})" title="Remover">×</button>
+                <div style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(92, 184, 92, 0.9); color: white; padding: 4px; font-size: 10px; text-align: center;">✓ Excelente</div>
+            `;
+        } else {
+            // Foto válida (sem avisos)
+            div.innerHTML = `
+                <img src="${foto.dataUrl}" alt="Preview ${index + 1}">
+                <button type="button" class="remove-preview" onclick="removerFotoPreview(${index})" title="Remover">×</button>
+            `;
+        }
+        
+        previewFotosExtras.appendChild(div);
+    });
+    
+    // Atualiza mensagens de erro e avisos
+    const fotosInvalidas = fotosPreview.filter(f => !f.valida);
+    const fotosQualidadeBaixa = fotosPreview.filter(f => f.valida && f.qualidade === 'baixa');
+    
+    if (fotosInvalidas.length > 0) {
+        const erros = [];
+        fotosPreview.forEach((foto, index) => {
+            if (!foto.valida) {
+                const img = new Image();
+                img.onload = function() {
+                    const largura = img.width;
+                    const altura = img.height;
+                    const menorDimensao = Math.min(largura, altura);
+                    const proporcao = largura / altura;
+                    
+                    if (menorDimensao < 850) {
+                        erros.push(`Foto ${index + 1}: Mínimo 850px na menor dimensão (atual: ${menorDimensao}px)`);
+                    } else if (proporcao < 1.0 || proporcao > 2.0) {
+                        erros.push(`Foto ${index + 1}: Proporção deve estar entre 1:1 e 2:1 (atual: ${proporcao.toFixed(2)}:1)`);
+                    }
+                    
+                    if (erros.length === fotosInvalidas.length) {
+                        let mensagem = '<strong>⚠️ Erros encontrados:</strong><ul style="margin: 5px 0; padding-left: 20px;">' + 
+                            erros.map(e => `<li>${e}</li>`).join('') + 
+                            '</ul><p style="margin-top: 5px; font-weight: 600;">Remova as fotos inválidas antes de salvar.</p>';
+                        
+                        // Adiciona avisos de qualidade baixa (não bloqueia)
+                        if (fotosQualidadeBaixa.length > 0) {
+                            mensagem += '<div style="margin-top: 15px; padding: 10px; background: #fff3cd; border-left: 4px solid #f0ad4e; border-radius: 4px;"><strong>💡 Avisos de qualidade:</strong><ul style="margin: 5px 0 0 20px; padding: 0;">';
+                            fotosQualidadeBaixa.forEach((foto, idx) => {
+                                const img = new Image();
+                                img.onload = function() {
+                                    const menorDimensao = Math.min(img.width, img.height);
+                                    mensagem += `<li>Foto ${idx + 1}: Recomendado 1200px+ para melhor qualidade (atual: ${menorDimensao}px)</li>`;
+                                };
+                                img.src = foto.dataUrl;
+                            });
+                            mensagem += '</ul><p style="margin-top: 5px; font-size: 12px; color: #856404;">Estas fotos serão aceitas, mas podem não ter a melhor aparência em telas de alta resolução.</p></div>';
+                        }
+                        
+                        errosFotosExtras.innerHTML = mensagem;
+                    }
+                };
+                img.src = foto.dataUrl;
+            }
+        });
+    } else if (fotosQualidadeBaixa.length > 0) {
+        // Apenas avisos de qualidade (não bloqueia salvamento)
+        let mensagem = '<div style="padding: 10px; background: #fff3cd; border-left: 4px solid #f0ad4e; border-radius: 4px;"><strong>💡 Avisos de qualidade:</strong><ul style="margin: 5px 0 0 20px; padding: 0;">';
+        fotosQualidadeBaixa.forEach((foto, idx) => {
+            const img = new Image();
+            img.onload = function() {
+                const menorDimensao = Math.min(img.width, img.height);
+                mensagem += `<li>Foto ${idx + 1}: Recomendado 1200px+ para melhor qualidade (atual: ${menorDimensao}px)</li>`;
+            };
+            img.src = foto.dataUrl;
+        });
+        mensagem += '</ul><p style="margin-top: 5px; font-size: 12px; color: #856404;">Estas fotos serão aceitas, mas podem não ter a melhor aparência em telas de alta resolução.</p></div>';
+        errosFotosExtras.innerHTML = mensagem;
+    } else {
+        errosFotosExtras.innerHTML = '';
+    }
+}
+
+function atualizarInputFotos() {
+    const dt = new DataTransfer();
+    const erros = [];
+    
+    fotosPreview.forEach((foto, index) => {
+        if (foto.valida) {
+            dt.items.add(foto.file);
+        } else {
+            erros.push(`Foto ${index + 1} é inválida`);
+        }
+    });
+    
+    fotosExtrasInput.files = dt.files;
+    
+    // Atualiza mensagens de erro
+    if (erros.length > 0) {
+        errosFotosExtras.innerHTML = '<strong>⚠️ Erros encontrados:</strong><ul style="margin: 5px 0; padding-left: 20px;">' + 
+            erros.map(e => `<li>${e}</li>`).join('') + 
+            '</ul><p style="margin-top: 5px; font-weight: 600;">Remova as fotos inválidas antes de salvar.</p>';
+    } else {
+        errosFotosExtras.innerHTML = '';
+    }
+}
+
+// Validação antes de enviar formulário
+document.querySelector('form').addEventListener('submit', function(e) {
+    const fotosInvalidas = fotosPreview.filter(f => !f.valida);
+    if (fotosInvalidas.length > 0) {
+        e.preventDefault();
+        alert('Não é possível salvar enquanto houver fotos extras inválidas. Remova as fotos inválidas ou substitua por imagens compatíveis.');
+        return false;
+    }
+});
+});
+</script>
+
+{% endblock %}

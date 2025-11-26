@@ -1,0 +1,589 @@
+{% extends "sitepublico/base_publico.html" %}
+{% load static %}
+
+{% block title %}Editar Perfil — CarBusiness{% endblock %}
+
+{% block head %}
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+    body {
+        background: #f8f9fa;
+    }
+
+    /* ========== HERO SECTION ========== */
+    .hero-section {
+        background: linear-gradient(135deg, #D7242A 0%, #B71C1C 100%);
+        padding: 50px 20px;
+        text-align: center;
+        color: white;
+        margin-bottom: 40px;
+    }
+
+    .hero-section h1 {
+        font-size: 36px;
+        font-weight: 900;
+        margin: 0 0 8px;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .hero-section p {
+        font-size: 16px;
+        margin: 0;
+        opacity: 0.95;
+    }
+
+    /* ========== CONTAINER ========== */
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 20px 60px;
+    }
+
+    /* ========== FORM CARD ========== */
+    .form-card {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        border: 1px solid #e8e8e8;
+        padding: 32px;
+        margin-bottom: 24px;
+    }
+
+    .form-section-title {
+        font-size: 20px;
+        font-weight: 800;
+        color: #1C1C1E;
+        margin: 0 0 24px;
+        padding-bottom: 12px;
+        border-bottom: 2px solid #f0f0f0;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        color: #1C1C1E;
+        margin-bottom: 8px;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e8e8e8;
+        border-radius: 10px;
+        font-size: 15px;
+        transition: all 0.2s;
+        box-sizing: border-box;
+        font-family: inherit;
+    }
+
+    .form-input:focus {
+        outline: none;
+        border-color: #D7242A;
+        box-shadow: 0 0 0 3px rgba(215, 36, 42, 0.1);
+    }
+
+    .form-input::placeholder {
+        color: #999;
+    }
+
+    .form-help {
+        font-size: 13px;
+        color: #6E6E73;
+        margin-top: 6px;
+    }
+
+    .form-errors {
+        color: #d9534f;
+        font-size: 13px;
+        margin-top: 6px;
+    }
+
+    .form-errors ul {
+        margin: 0;
+        padding-left: 20px;
+    }
+
+    /* Foto de perfil */
+    .foto-preview-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+
+    .foto-preview {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #e8e8e8;
+        background: #f5f5f5;
+    }
+
+    .foto-placeholder {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 3px solid #e8e8e8;
+        color: #999;
+    }
+
+    .foto-placeholder svg {
+        width: 40px;
+        height: 40px;
+    }
+
+    /* Botões */
+    .form-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 32px;
+        flex-wrap: wrap;
+    }
+
+    .btn-primary {
+        flex: 1;
+        min-width: 150px;
+        padding: 14px 24px;
+        background: linear-gradient(135deg, #D7242A 0%, #B71C1C 100%);
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 15px;
+        cursor: pointer;
+        transition: all 0.3s;
+        box-shadow: 0 4px 12px rgba(215, 36, 42, 0.3);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(215, 36, 42, 0.4);
+    }
+
+    .btn-secondary {
+        padding: 14px 24px;
+        background: #f5f5f5;
+        color: #1C1C1E;
+        border: 2px solid #e8e8e8;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 15px;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .btn-secondary:hover {
+        background: #e8e8e8;
+    }
+
+    .btn-secondary svg,
+    .btn-primary svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    /* Link para alterar senha */
+    .senha-link {
+        text-align: center;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #f0f0f0;
+    }
+
+    .senha-link a {
+        color: #D7242A;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: color 0.2s;
+    }
+
+    .senha-link a:hover {
+        color: #B71C1C;
+        text-decoration: underline;
+    }
+
+    /* ========== ANIMAÇÕES ========== */
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.05);
+        }
+    }
+
+    .btn-primary:active {
+        animation: pulse 0.3s ease;
+    }
+
+    /* ========== RESPONSIVIDADE ========== */
+    @media (max-width: 768px) {
+        .hero-section {
+            padding: 40px 20px;
+            margin-bottom: 30px;
+        }
+
+        .hero-section h1 {
+            font-size: 28px;
+        }
+
+        .container {
+            padding: 0 15px 40px;
+        }
+
+        .form-card {
+            padding: 24px;
+        }
+
+        .form-actions {
+            flex-direction: column;
+        }
+
+        .btn-primary,
+        .btn-secondary {
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- BREADCRUMB -->
+<nav class="breadcrumb" style="margin-bottom: 20px;">
+    <a href="{% url 'home' %}">Início</a> &raquo;
+    <a href="{% url 'painel_usuario' %}">Meu Painel</a> &raquo;
+    <span>Editar Perfil</span>
+</nav>
+
+<!-- HERO SECTION -->
+<div class="hero-section">
+    <h1>Editar Perfil</h1>
+    <p>Atualize suas informações pessoais</p>
+</div>
+
+<div class="container">
+    <!-- Mensagens de erro (não mostra mensagens de sucesso aqui, pois redireciona) -->
+    {% if messages %}
+    <div style="margin-bottom: 24px;">
+        {% for message in messages %}
+            {% if message.tags == 'error' or message.tags == 'warning' %}
+        <div class="alert-message alert-{{ message.tags }}" style="
+            padding: 16px 20px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            font-size: 15px;
+            animation: slideIn 0.3s ease-out;
+            {% if message.tags == 'success' %}
+                background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+                color: #155724;
+                border: 2px solid #28a745;
+            {% elif message.tags == 'error' %}
+                background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+                color: #721c24;
+                border: 2px solid #dc3545;
+            {% else %}
+                background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+                color: #0c5460;
+                border: 2px solid #17a2b8;
+            {% endif %}
+        ">
+            {% if message.tags == 'success' %}
+                <i data-lucide="check-circle" style="width: 24px; height: 24px;"></i>
+            {% elif message.tags == 'error' %}
+                <i data-lucide="alert-circle" style="width: 24px; height: 24px;"></i>
+            {% else %}
+                <i data-lucide="info" style="width: 24px; height: 24px;"></i>
+            {% endif %}
+            <span>{{ message }}</span>
+        </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="form-card">
+        <h2 class="form-section-title">Informações Pessoais</h2>
+
+        <form method="post" enctype="multipart/form-data" id="formEditarPerfil">
+            {% csrf_token %}
+
+            <!-- Foto de perfil -->
+            <div class="form-group">
+                <label>Foto de Perfil</label>
+                <div class="foto-preview-wrapper">
+                    {% if perfil.foto %}
+                    <img src="{{ perfil.foto.url }}" alt="Foto de perfil" class="foto-preview" id="fotoPreview">
+                    {% else %}
+                    <div class="foto-placeholder" id="fotoPreview">
+                        <i data-lucide="user"></i>
+                    </div>
+                    {% endif %}
+                    <div style="flex: 1;">
+                        {{ form.foto }}
+                        {% if form.foto.errors %}
+                        <div class="form-errors">{{ form.foto.errors }}</div>
+                        {% endif %}
+                        <div class="form-help">Formatos aceitos: JPG, PNG. Tamanho máximo: 5MB</div>
+                        <div id="fotoInfo" style="display: none; margin-top: 8px; padding: 8px; background: #fff3cd; border: 1px solid #ffc107; border-radius: 6px; font-size: 13px; color: #856404;">
+                            <strong>⚠️ Atenção:</strong> Se houver erro de validação, você precisará selecionar a foto novamente. O preview será mantido apenas visualmente.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nome de usuário -->
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                <div class="form-errors">{{ form.username.errors }}</div>
+                {% endif %}
+            </div>
+
+            <!-- E-mail -->
+            <div class="form-group">
+                <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                <div class="form-errors">{{ form.email.errors }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Primeiro nome -->
+            <div class="form-group">
+                <label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
+                {{ form.first_name }}
+                {% if form.first_name.errors %}
+                <div class="form-errors">{{ form.first_name.errors }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Sobrenome -->
+            <div class="form-group">
+                <label for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}</label>
+                {{ form.last_name }}
+                {% if form.last_name.errors %}
+                <div class="form-errors">{{ form.last_name.errors }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Telefone -->
+            <div class="form-group">
+                <label for="{{ form.telefone.id_for_label }}">{{ form.telefone.label }}</label>
+                {{ form.telefone }}
+                {% if form.telefone.errors %}
+                <div class="form-errors">{{ form.telefone.errors }}</div>
+                {% endif %}
+                <div class="form-help">Opcional. Use para facilitar o contato das lojas.</div>
+            </div>
+
+            <!-- Botões -->
+            <div class="form-actions">
+                <button type="submit" class="btn-primary" id="btnSalvar">
+                    <i data-lucide="save"></i>
+                    <span id="btnText">Salvar Alterações</span>
+                </button>
+                <a href="{% url 'painel_usuario' %}" class="btn-secondary">
+                    <i data-lucide="x"></i>
+                    Cancelar
+                </a>
+            </div>
+        </form>
+
+        <!-- Link para alterar senha -->
+        <div class="senha-link">
+            <a href="{% url 'alterar_senha' %}">
+                <i data-lucide="lock"></i>
+                Alterar senha
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Mantém preview da foto mesmo após erro de validação
+    window.addEventListener('DOMContentLoaded', function() {
+        const fotoInput = document.getElementById('{{ form.foto.id_for_label }}');
+        const preview = document.getElementById('fotoPreview');
+        const fotoInfo = document.getElementById('fotoInfo');
+        
+        // Verifica se há erros no formulário
+        const hasErrors = document.querySelector('.form-errors');
+        const hasFotoPreview = sessionStorage.getItem('fotoPerfilPreview');
+        
+        // Se há erro e há preview salvo, restaura o preview visual
+        if (hasErrors && hasFotoPreview && !fotoInput.files.length) {
+            // Restaura preview visual
+            if (preview.tagName === 'IMG') {
+                preview.src = hasFotoPreview;
+            } else {
+                const img = document.createElement('img');
+                img.src = hasFotoPreview;
+                img.className = 'foto-preview';
+                img.id = 'fotoPreview';
+                preview.parentNode.replaceChild(img, preview);
+            }
+            
+            // Mostra aviso para selecionar novamente
+            if (fotoInfo) {
+                fotoInfo.style.display = 'block';
+            }
+        }
+        
+        // Preview da foto ao selecionar
+        fotoInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const dataUrl = e.target.result;
+                    
+                    // Salva no sessionStorage para manter após erro
+                    sessionStorage.setItem('fotoPerfilPreview', dataUrl);
+                    
+                    // Atualiza preview
+                    const preview = document.getElementById('fotoPreview');
+                    if (preview.tagName === 'IMG') {
+                        preview.src = dataUrl;
+                    } else {
+                        // Substitui placeholder por imagem
+                        const img = document.createElement('img');
+                        img.src = dataUrl;
+                        img.className = 'foto-preview';
+                        img.id = 'fotoPreview';
+                        preview.parentNode.replaceChild(img, preview);
+                    }
+                    
+                    // Esconde aviso se houver
+                    if (fotoInfo) {
+                        fotoInfo.style.display = 'none';
+                    }
+                };
+                reader.readAsDataURL(file);
+            } else {
+                // Se removeu a seleção, limpa o sessionStorage
+                sessionStorage.removeItem('fotoPerfilPreview');
+                if (fotoInfo) {
+                    fotoInfo.style.display = 'none';
+                }
+            }
+        });
+        
+        // Limpa sessionStorage quando o formulário é enviado com sucesso
+        const form = fotoInput.closest('form');
+        form.addEventListener('submit', function() {
+            // Se não há erros visíveis, limpa o sessionStorage após um delay
+            // (para dar tempo de verificar se houve redirecionamento)
+            setTimeout(function() {
+                // Se ainda está na página, pode ter havido erro
+                // O sessionStorage será mantido para restaurar o preview
+            }, 500);
+        });
+    });
+    
+    // Limpa sessionStorage quando a página é carregada sem erros (sucesso)
+    // Isso acontece quando há redirecionamento após sucesso
+    if (!document.querySelector('.form-errors')) {
+        // Aguarda um pouco para garantir que não há erros
+        setTimeout(function() {
+            const hasErrors = document.querySelector('.form-errors');
+            if (!hasErrors) {
+                sessionStorage.removeItem('fotoPerfilPreview');
+            }
+        }, 100);
+    }
+
+    // Confirmação visual ao salvar
+    const form = document.getElementById('formEditarPerfil');
+    const btnSalvar = document.getElementById('btnSalvar');
+    const btnText = document.getElementById('btnText');
+    
+    form.addEventListener('submit', function(e) {
+        // Muda o texto do botão para feedback visual
+        if (btnText) {
+            btnText.textContent = 'Salvando...';
+        }
+        
+        // Desabilita o botão para evitar duplo clique
+        if (btnSalvar) {
+            btnSalvar.disabled = true;
+            btnSalvar.style.opacity = '0.7';
+            btnSalvar.style.cursor = 'wait';
+        }
+    });
+    
+    // Auto-remove mensagens após 5 segundos (apenas se não for erro)
+    document.addEventListener('DOMContentLoaded', function() {
+        const alerts = document.querySelectorAll('.alert-message');
+        alerts.forEach(function(alert) {
+            // Não remove mensagens de erro automaticamente
+            if (!alert.classList.contains('alert-error')) {
+                setTimeout(function() {
+                    alert.style.transition = 'opacity 0.5s ease-out';
+                    alert.style.opacity = '0';
+                    setTimeout(function() {
+                        alert.remove();
+                    }, 500);
+                }, 5000);
+            }
+            
+            // Se houver mensagem de sucesso, destaca e rola para cima
+            if (alert.classList.contains('alert-success')) {
+                alert.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+                // Destaque visual
+                setTimeout(function() {
+                    alert.style.boxShadow = '0 0 20px rgba(40, 167, 69, 0.5)';
+                    setTimeout(function() {
+                        alert.style.boxShadow = 'none';
+                    }, 2000);
+                }, 100);
+            }
+        });
+    });
+
+    lucide.createIcons();
+</script>
+
+{% endblock %}
+

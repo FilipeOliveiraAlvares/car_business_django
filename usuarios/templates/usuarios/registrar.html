@@ -1,0 +1,132 @@
+{% extends "sitepublico/base_publico.html" %}
+
+{% block title %}Criar Conta — CarBusiness{% endblock %}
+
+{% block head %}
+<style>
+
+.reg-box {
+    max-width: 440px;
+    margin: 60px auto;
+    background: var(--cor-branco);
+    padding: 35px 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.08);
+    border: 1px solid #eee;
+}
+
+.reg-box h2 {
+    margin: 0 0 20px;
+    text-align: center;
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--cor-texto);
+}
+
+/* Inputs */
+.reg-box label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--cor-texto);
+    display: block;
+    margin-bottom: 6px;
+}
+
+.reg-box input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #dcdcdc;
+    font-size: 15px;
+    margin-bottom: 16px;
+    outline: none;
+    transition: .2s;
+}
+
+.reg-box input:focus {
+    border-color: var(--cor-primaria);
+    box-shadow: 0 0 0 2px rgba(215,36,42,0.2);
+}
+
+/* BOTÃO */
+.reg-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--cor-primaria);
+    border-radius: 10px;
+    color: white;
+    border: none;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: .2s;
+}
+
+.reg-btn:hover {
+    background: var(--cor-primaria-dark);
+}
+
+/* Links */
+.reg-links {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 14px;
+}
+
+.reg-links a {
+    color: var(--cor-primaria);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.reg-links a:hover {
+    text-decoration: underline;
+}
+
+/* mensagens */
+.reg-msg {
+    background: #ffeae8;
+    padding: 12px;
+    border-radius: 10px;
+    color: #b20000;
+    font-size: 14px;
+    margin-bottom: 14px;
+    border-left: 4px solid var(--cor-primaria);
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="reg-box">
+
+    <h2>Criar conta</h2>
+
+    {% if messages %}
+        {% for msg in messages %}
+            <div class="reg-msg">{{ msg }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+
+        <label>Usuário</label>
+        <input type="text" name="username" placeholder="Seu nome de usuário" required>
+
+        <label>E-mail</label>
+        <input type="email" name="email" placeholder="exemplo@dominio.com">
+
+        <label>Senha</label>
+        <input type="password" name="password" placeholder="Crie uma senha" required>
+
+        <button type="submit" class="reg-btn">Criar conta</button>
+
+        <div class="reg-links">
+            <p>Já possui conta? <a href="/usuario/login/">Entrar</a></p>
+        </div>
+    </form>
+
+</div>
+{% endblock %}

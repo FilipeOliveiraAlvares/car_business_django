@@ -1,0 +1,600 @@
+{% extends "sitepublico/base_publico.html" %}
+{% load static %}
+
+{% block title %}{{ loja.nome }} — CarBusiness{% endblock %}
+
+{% block head %}
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+    body {
+        background: #f8f9fa;
+    }
+
+    /* ========== HERO SECTION ========== */
+    .hero-section {
+        background: linear-gradient(135deg, #D7242A 0%, #B71C1C 100%);
+        padding: 50px 20px;
+        text-align: center;
+        color: white;
+        margin-bottom: 40px;
+    }
+
+    .hero-section h1 {
+        font-size: 38px;
+        font-weight: 900;
+        margin: 0 0 8px;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .hero-section p {
+        font-size: 16px;
+        margin: 0;
+        opacity: 0.95;
+    }
+
+    /* ========== CONTAINER ========== */
+    .container-loja {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px 60px;
+    }
+
+    /* ========== CARD DE INFORMAÇÕES DA LOJA ========== */
+    .loja-info-card {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        border: 1px solid #e8e8e8;
+        margin-bottom: 40px;
+        overflow: hidden;
+    }
+
+    .loja-header {
+        display: flex;
+        gap: 30px;
+        padding: 32px;
+        align-items: flex-start;
+    }
+
+    .loja-logo-wrapper {
+        flex-shrink: 0;
+    }
+
+    .loja-logo {
+        width: 140px;
+        height: 140px;
+        border-radius: 16px;
+        object-fit: cover;
+        background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+        border: 2px solid #f0f0f0;
+    }
+
+    .loja-details {
+        flex: 1;
+    }
+
+    .loja-name {
+        font-size: 32px;
+        font-weight: 900;
+        color: #1C1C1E;
+        margin: 0 0 20px;
+        line-height: 1.2;
+    }
+
+    .loja-info-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    .info-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        font-size: 15px;
+        color: #6E6E73;
+        line-height: 1.5;
+    }
+
+    .info-item svg {
+        width: 20px;
+        height: 20px;
+        color: #D7242A;
+        margin-top: 2px;
+        flex-shrink: 0;
+    }
+
+    .info-item a {
+        color: #0066ff;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+
+    .info-item a:hover {
+        color: #0052cc;
+        text-decoration: underline;
+    }
+
+    .info-item a:active {
+        color: #003d99;
+    }
+
+    .loja-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 24px;
+    }
+
+    .btn-action {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 14px 28px;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 15px;
+        text-decoration: none;
+        transition: all 0.3s;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-whatsapp {
+        background: linear-gradient(135deg, #25D366 0%, #1eb65b 100%);
+        color: white;
+        box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+    }
+
+    .btn-whatsapp:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+    }
+
+    .btn-action svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    /* ========== SEÇÃO DE CARROS ========== */
+    .carros-section {
+        margin-top: 50px;
+    }
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .section-title {
+        font-size: 28px;
+        font-weight: 900;
+        color: #1C1C1E;
+        margin: 0;
+    }
+
+    .section-count {
+        font-size: 16px;
+        color: #6E6E73;
+        font-weight: 500;
+    }
+
+    /* ========== GRID DE CARROS ========== */
+    .carros-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 24px;
+    }
+
+    .carro-card {
+        background: white;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        border: 1px solid #e8e8e8;
+        text-decoration: none;
+        color: inherit;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+
+    .carro-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        border-color: #D7242A;
+    }
+
+    .carro-image-wrapper {
+        position: relative;
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+        background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+    }
+
+    .carro-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s;
+    }
+
+    .carro-card:hover img {
+        transform: scale(1.1);
+    }
+
+    .carro-badges {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+    }
+
+    .badge {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(8px);
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 700;
+        color: #1C1C1E;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .carro-info {
+        padding: 18px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .carro-info h3 {
+        font-size: 19px;
+        margin: 0 0 8px;
+        font-weight: 700;
+        color: #1C1C1E;
+        line-height: 1.3;
+    }
+
+    .carro-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+    }
+
+    .carro-meta-item {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 13px;
+        color: #6E6E73;
+    }
+
+    .carro-meta-item svg {
+        width: 14px;
+        height: 14px;
+        opacity: 0.7;
+    }
+
+    .carro-preco {
+        font-size: 26px;
+        font-weight: 900;
+        color: #D7242A;
+        margin-top: auto;
+        margin-bottom: 8px;
+    }
+
+    .carro-location {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12px;
+        color: #6E6E73;
+        margin-top: 8px;
+        padding-top: 8px;
+        border-top: 1px solid #f0f0f0;
+    }
+
+    .carro-location svg {
+        width: 14px;
+        height: 14px;
+    }
+
+    /* ESTADO VAZIO */
+    .empty-state {
+        text-align: center;
+        padding: 80px 20px;
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .empty-state svg {
+        width: 80px;
+        height: 80px;
+        color: #ccc;
+        margin-bottom: 20px;
+    }
+
+    .empty-state h3 {
+        font-size: 24px;
+        color: #1C1C1E;
+        margin: 0 0 10px;
+    }
+
+    .empty-state p {
+        color: #6E6E73;
+        font-size: 16px;
+        margin: 0;
+    }
+
+    /* ========== RESPONSIVIDADE ========== */
+    @media (max-width: 768px) {
+        .hero-section {
+            padding: 40px 20px;
+            margin-bottom: 30px;
+        }
+
+        .hero-section h1 {
+            font-size: 28px;
+        }
+
+        .container-loja {
+            padding: 0 15px 40px;
+        }
+
+        .loja-header {
+            flex-direction: column;
+            text-align: center;
+            padding: 24px;
+        }
+
+        .loja-logo-wrapper {
+            margin: 0 auto;
+        }
+
+        .loja-logo {
+            width: 120px;
+            height: 120px;
+        }
+
+        .loja-name {
+            font-size: 26px;
+        }
+
+        .loja-info-list {
+            grid-template-columns: 1fr;
+        }
+
+        .loja-actions {
+            flex-direction: column;
+        }
+
+        .btn-action {
+            width: 100%;
+        }
+
+        .carros-grid {
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .section-title {
+            font-size: 24px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .hero-section h1 {
+            font-size: 24px;
+        }
+
+        .loja-header {
+            padding: 20px;
+        }
+
+        .loja-logo {
+            width: 100px;
+            height: 100px;
+        }
+
+        .loja-name {
+            font-size: 22px;
+        }
+
+        .carros-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .carro-image-wrapper {
+            height: 180px;
+        }
+
+        .carro-info {
+            padding: 15px;
+        }
+
+        .carro-info h3 {
+            font-size: 17px;
+        }
+
+        .carro-preco {
+            font-size: 22px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- BREADCRUMB -->
+<nav class="breadcrumb" style="margin-bottom: 20px;">
+    <a href="{% url 'home' %}">Início</a> &raquo;
+    <a href="{% url 'listar_lojas' %}">Lojas</a> &raquo;
+    <span>{{ loja.nome }}</span>
+</nav>
+
+<!-- HERO SECTION -->
+<div class="hero-section">
+    <h1>{{ loja.nome }}</h1>
+    <p>Confira nossos veículos disponíveis</p>
+</div>
+
+<div class="container-loja">
+    <!-- CARD DE INFORMAÇÕES DA LOJA -->
+    <div class="loja-info-card">
+        <div class="loja-header">
+            <div class="loja-logo-wrapper">
+                {% if loja.logo %}
+                <img src="{{ loja.logo.url }}" alt="{{ loja.nome }}" class="loja-logo">
+                {% else %}
+                <img src="https://via.placeholder.com/400x200?text=Sem+Logo" alt="{{ loja.nome }}" class="loja-logo">
+                {% endif %}
+            </div>
+
+            <div class="loja-details">
+                <h2 class="loja-name">{{ loja.nome }}</h2>
+
+                <div class="loja-info-list">
+                    {% if loja.cidade %}
+                    <div class="info-item">
+                        <i data-lucide="map-pin"></i>
+                        <span>{{ loja.cidade.nome }}, {{ loja.cidade.estado }}</span>
+                    </div>
+                    {% endif %}
+
+                    {% if loja.endereco %}
+                    <div class="info-item">
+                        <i data-lucide="map"></i>
+                        <span>{{ loja.endereco }}</span>
+                    </div>
+                    {% endif %}
+
+                    {% if loja.telefone %}
+                    <div class="info-item">
+                        <i data-lucide="phone"></i>
+                        <a href="tel:{{ loja.telefone|cut:'('|cut:')'|cut:'-'|cut:' ' }}" style="color: #0066ff; text-decoration: none; transition: color 0.2s;">
+                            {{ loja.telefone }}
+                        </a>
+                    </div>
+                    {% endif %}
+
+                    {% if loja.instagram %}
+                    <div class="info-item">
+                        <i data-lucide="instagram"></i>
+                        <a href="{{ loja.instagram }}" target="_blank">@Instagram</a>
+                    </div>
+                    {% endif %}
+
+                    {% if loja.facebook %}
+                    <div class="info-item">
+                        <i data-lucide="facebook"></i>
+                        <a href="{{ loja.facebook }}" target="_blank">Facebook</a>
+                    </div>
+                    {% endif %}
+
+                    {% if loja.maps_url %}
+                    <div class="info-item">
+                        <i data-lucide="map"></i>
+                        <a href="{{ loja.maps_url }}" target="_blank">Ver no Google Maps</a>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="loja-actions">
+                    {% if loja.telefone %}
+                    <a href="https://wa.me/55{{ loja.telefone|cut:'('|cut:')'|cut:'-'|cut:' ' }}" 
+                       target="_blank" 
+                       class="btn-action btn-whatsapp">
+                        <i data-lucide="message-circle"></i>
+                        Falar no WhatsApp
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SEÇÃO DE CARROS -->
+    <div class="carros-section">
+        <div class="section-header">
+            <h2 class="section-title">Carros Disponíveis</h2>
+            <span class="section-count">{{ carros.count }} veículo{{ carros.count|pluralize }}</span>
+        </div>
+
+        {% if carros %}
+        <div class="carros-grid">
+            {% for carro in carros %}
+            <a href="{% url 'detalhes_carro' carro.id %}" class="carro-card">
+                <div class="carro-image-wrapper">
+                    {% if carro.foto_principal %}
+                    <img src="{{ carro.foto_principal.url }}" alt="{{ carro.nome }}">
+                    {% else %}
+                    <img src="https://via.placeholder.com/400x200?text=Sem+Foto" alt="{{ carro.nome }}">
+                    {% endif %}
+
+                    <div class="carro-badges">
+                        <span class="badge">{{ carro.ano }}</span>
+                        {% if carro.km %}
+                        <span class="badge">{{ carro.km|floatformat:0 }} km</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="carro-info">
+                    <h3>{{ carro.nome }}</h3>
+
+                    <div class="carro-meta">
+                        <span class="carro-meta-item">
+                            <i data-lucide="tag"></i>
+                            {{ carro.marca.nome }}
+                        </span>
+                        <span class="carro-meta-item">
+                            <i data-lucide="fuel"></i>
+                            {{ carro.get_combustivel_display }}
+                        </span>
+                        <span class="carro-meta-item">
+                            <i data-lucide="settings"></i>
+                            {{ carro.get_cambio_display }}
+                        </span>
+                    </div>
+
+                    <div class="carro-preco">R$ {{ carro.preco }}</div>
+
+                    {% if carro.loja.cidade %}
+                    <div class="carro-location">
+                        <i data-lucide="map-pin"></i>
+                        <span>{{ carro.loja.cidade.nome }} - {{ carro.loja.cidade.estado }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <i data-lucide="car"></i>
+            <h3>Nenhum veículo disponível</h3>
+            <p>Esta loja ainda não possui veículos cadastrados.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    lucide.createIcons();
+</script>
+
+{% endblock %}

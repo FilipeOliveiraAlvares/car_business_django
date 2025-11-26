@@ -1,0 +1,743 @@
+{% extends "sitepublico/base_publico.html" %}
+{% load static %}
+
+{% block title %}Listagem de Carros{% endblock %}
+
+{% block head %}
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+    /* ========== LAYOUT PRINCIPAL ========== */
+    .page-header {
+        max-width: 1250px;
+        margin: 0 auto 30px;
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .page-header h1 {
+        margin: 0;
+        font-size: 32px;
+        font-weight: 900;
+        color: #1C1C1E;
+    }
+
+    .results-count {
+        color: #6E6E73;
+        font-size: 15px;
+        font-weight: 500;
+    }
+
+    .layout {
+        max-width: 1250px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: flex;
+        gap: 28px;
+        align-items: flex-start;
+    }
+
+    /* ========== FILTROS MODERNOS ========== */
+    .filtros {
+        width: 300px;
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        border: 1px solid #f0f0f0;
+        position: sticky;
+        top: 90px;
+        max-height: calc(100vh - 110px);
+        overflow-y: auto;
+    }
+
+    .filtros-header {
+        padding: 20px;
+        border-bottom: 2px solid #f5f5f5;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .filtros-header h3 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 800;
+        color: #1C1C1E;
+    }
+
+    .clear-filters {
+        background: none;
+        border: none;
+        color: #D7242A;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        padding: 4px 8px;
+        border-radius: 6px;
+        transition: all 0.2s;
+    }
+
+    .clear-filters:hover {
+        background: #ffeaea;
+    }
+
+    .filtros-content {
+        padding: 20px;
+    }
+
+    .filter-group {
+        margin-bottom: 24px;
+        padding-bottom: 24px;
+        border-bottom: 1px solid #f5f5f5;
+    }
+
+    .filter-group:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    .filter-group-title {
+        font-size: 13px;
+        font-weight: 700;
+        color: #6E6E73;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 12px;
+    }
+
+    .filtros label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 14px;
+        color: #1C1C1E;
+        font-weight: 600;
+    }
+
+    .filtros select,
+    .filtros input {
+        width: 100%;
+        padding: 12px 14px;
+        border-radius: 10px;
+        border: 2px solid #e8e8e8;
+        box-sizing: border-box;
+        font-size: 14px;
+        transition: all 0.2s;
+        background: #fafafa;
+        font-family: inherit;
+    }
+
+    .filtros select:focus,
+    .filtros input:focus {
+        outline: none;
+        border-color: #D7242A;
+        background: white;
+        box-shadow: 0 0 0 3px rgba(215, 36, 42, 0.1);
+    }
+
+    .geo-button-wrapper {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+    }
+
+    .btn-geo {
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f5f5f5;
+        color: #D7242A;
+        border: 2px solid #e8e8e8;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.2s;
+        flex-shrink: 0;
+    }
+
+    .btn-geo:hover {
+        background: #ffeaea;
+        border-color: #D7242A;
+        transform: scale(1.05);
+    }
+
+    .filtros button[type="submit"] {
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(135deg, #D7242A 0%, #B71C1C 100%);
+        color: white;
+        border-radius: 12px;
+        border: none;
+        font-weight: 700;
+        font-size: 15px;
+        cursor: pointer;
+        transition: all 0.3s;
+        box-shadow: 0 4px 12px rgba(215, 36, 42, 0.3);
+    }
+
+    .filtros button[type="submit"]:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(215, 36, 42, 0.4);
+    }
+
+    .filtros button[type="submit"]:active {
+        transform: translateY(0);
+    }
+
+    /* ========== LISTA DE CARROS PROFISSIONAL ========== */
+    .lista-wrapper {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .lista-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .lista-carros {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 24px;
+    }
+
+    .car-card {
+        background: white;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        border: 1px solid #f0f0f0;
+        text-decoration: none;
+        color: inherit;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+
+    .car-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .car-image-wrapper {
+        position: relative;
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+        background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+    }
+
+    .car-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s;
+    }
+
+    .car-card:hover img {
+        transform: scale(1.1);
+    }
+
+    .car-badges {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+    }
+
+    .badge {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(8px);
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 700;
+        color: #1C1C1E;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .car-info {
+        padding: 18px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .car-info h3 {
+        font-size: 19px;
+        margin: 0 0 8px;
+        font-weight: 700;
+        color: #1C1C1E;
+        line-height: 1.3;
+    }
+
+    .car-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+    }
+
+    .car-meta-item {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 13px;
+        color: #6E6E73;
+    }
+
+    .car-meta-item svg {
+        width: 14px;
+        height: 14px;
+        opacity: 0.7;
+    }
+
+    .car-preco {
+        font-size: 26px;
+        font-weight: 900;
+        color: #D7242A;
+        margin-top: auto;
+        margin-bottom: 8px;
+    }
+
+    .car-location {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12px;
+        color: #6E6E73;
+        margin-top: 8px;
+        padding-top: 8px;
+        border-top: 1px solid #f0f0f0;
+    }
+
+    .car-location svg {
+        width: 14px;
+        height: 14px;
+    }
+
+    .empty-state {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 60px 20px;
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .empty-state svg {
+        width: 80px;
+        height: 80px;
+        color: #ccc;
+        margin-bottom: 20px;
+    }
+
+    .empty-state h3 {
+        font-size: 22px;
+        color: #1C1C1E;
+        margin-bottom: 10px;
+    }
+
+    .empty-state p {
+        color: #6E6E73;
+        font-size: 15px;
+    }
+
+    /* ========== RESPONSIVIDADE ========== */
+    @media (max-width: 992px) {
+        .layout {
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .filtros {
+            width: 100%;
+            position: relative;
+            top: 0;
+            max-height: none;
+        }
+
+        .lista-carros {
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .page-header {
+            padding: 0 15px;
+        }
+
+        .page-header h1 {
+            font-size: 26px;
+        }
+
+        .layout {
+            padding: 0 15px;
+        }
+
+        .filtros-header {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .filtros-header::after {
+            content: "▼";
+            font-size: 14px;
+            color: #6E6E73;
+            transition: transform 0.3s;
+        }
+
+        .filtros.collapsed .filtros-header::after {
+            transform: rotate(-90deg);
+        }
+
+        .filtros-content {
+            display: none;
+        }
+
+        .filtros:not(.collapsed) .filtros-content {
+            display: block;
+        }
+
+        .lista-carros {
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .car-image-wrapper {
+            height: 180px;
+        }
+
+        .car-info {
+            padding: 15px;
+        }
+
+        .car-info h3 {
+            font-size: 17px;
+        }
+
+        .car-preco {
+            font-size: 22px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .page-header h1 {
+            font-size: 22px;
+        }
+
+        .lista-carros {
+            grid-template-columns: 1fr;
+        }
+
+        .car-image-wrapper {
+            height: 200px;
+        }
+
+        .filtros-header,
+        .filtros-content {
+            padding: 15px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h1>Carros Disponíveis</h1>
+        <p class="results-count">
+            {% if carros %}
+                {{ carros|length }} veículo{{ carros|length|pluralize }} encontrado{{ carros|length|pluralize }}
+            {% else %}
+                Nenhum veículo encontrado
+            {% endif %}
+        </p>
+    </div>
+</div>
+
+<nav class="breadcrumb">
+    <a href="{% url 'home' %}">Início</a> &raquo;
+    <span>Carros</span>
+</nav>
+
+<div class="layout">
+    <!-- FILTROS -->
+    <aside class="filtros" id="filtrosSidebar">
+        <div class="filtros-header" id="filtrosHeader">
+            <h3>Filtros</h3>
+            <button type="button" class="clear-filters" id="clearFiltersBtn">Limpar</button>
+        </div>
+
+        <div class="filtros-content">
+            <form method="get">
+                <!-- GRUPO: BUSCA E LOCALIZAÇÃO -->
+                <div class="filter-group">
+                    <div class="filter-group-title">Busca</div>
+                    <label>Buscar por nome</label>
+                    <input type="text" name="busca" placeholder="Ex: S10, Civic..." value="{{ request.GET.busca|default_if_none:'' }}">
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-group-title">Localização</div>
+                    <label>Cidade</label>
+                    <div class="geo-button-wrapper">
+                        <select name="cidade" id="selectCidade" style="flex:1;">
+                            <option value="">Todas as cidades</option>
+                            {% for c in cidades %}
+                            <option value="{{ c.id }}" {% if request.GET.cidade|default:'' == c.id|stringformat:"s" %}selected{% endif %}>
+                                {{ c.nome }} — {{ c.estado }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <button type="button" id="btnGeo" class="btn-geo" title="Usar minha localização">
+                            <i data-lucide="map-pin"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- GRUPO: VEÍCULO -->
+                <div class="filter-group">
+                    <div class="filter-group-title">Veículo</div>
+                    
+                    <label>Marca</label>
+                    <select name="marca">
+                        <option value="">Todas as marcas</option>
+                        {% for m in marcas %}
+                        <option value="{{ m.id }}" {% if request.GET.marca == m.id|stringformat:"s" %}selected{% endif %}>
+                            {{ m.nome }}
+                        </option>
+                        {% endfor %}
+                    </select>
+
+                    <label>Ano (mínimo)</label>
+                    <select name="ano_min">
+                        <option value="">Qualquer ano</option>
+                        {% for ano in anos %}
+                        <option value="{{ ano }}" {% if request.GET.ano_min == ano|stringformat:"s" %}selected{% endif %}>
+                            {{ ano }}
+                        </option>
+                        {% endfor %}
+                    </select>
+
+                    <label>Ano (máximo)</label>
+                    <select name="ano_max">
+                        <option value="">Qualquer ano</option>
+                        {% for ano in anos %}
+                        <option value="{{ ano }}" {% if request.GET.ano_max == ano|stringformat:"s" %}selected{% endif %}>
+                            {{ ano }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- GRUPO: ESPECIFICAÇÕES -->
+                <div class="filter-group">
+                    <div class="filter-group-title">Especificações</div>
+                    
+                    <label>Combustível</label>
+                    <select name="combustivel">
+                        <option value="">Todos</option>
+                        {% for key, value in combustiveis %}
+                        <option value="{{ key }}" {% if request.GET.combustivel == key %}selected{% endif %}>
+                            {{ value }}
+                        </option>
+                        {% endfor %}
+                    </select>
+
+                    <label>Câmbio</label>
+                    <select name="cambio">
+                        <option value="">Todos</option>
+                        {% for key, value in cambios %}
+                        <option value="{{ key }}" {% if request.GET.cambio == key %}selected{% endif %}>
+                            {{ value }}
+                        </option>
+                        {% endfor %}
+                    </select>
+
+                    <label>Portas</label>
+                    <select name="portas">
+                        <option value="">Todas</option>
+                        {% for p in portas %}
+                        <option value="{{ p }}" {% if request.GET.portas == p|stringformat:"s" %}selected{% endif %}>
+                            {{ p }} portas
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- GRUPO: PREÇO -->
+                <div class="filter-group">
+                    <div class="filter-group-title">Preço</div>
+                    
+                    <label>Preço mínimo (R$)</label>
+                    <input type="number" name="preco_min" placeholder="Ex: 30000" value="{{ request.GET.preco_min|default_if_none:'' }}">
+
+                    <label>Preço máximo (R$)</label>
+                    <input type="number" name="preco_max" placeholder="Ex: 100000" value="{{ request.GET.preco_max|default_if_none:'' }}">
+                </div>
+
+                <button type="submit">🔍 Aplicar Filtros</button>
+            </form>
+        </div>
+    </aside>
+
+    <!-- LISTA DE CARROS -->
+    <section class="lista-wrapper">
+        <div class="lista-carros">
+            {% for carro in carros %}
+            <a href="{% url 'detalhes_carro' carro.id %}" class="car-card">
+                <div class="car-image-wrapper">
+                    {% if carro.foto_principal %}
+                    <img src="{{ carro.foto_principal.url }}" alt="{{ carro.nome }}">
+                    {% else %}
+                    <img src="https://via.placeholder.com/400x200?text=Sem+Foto" alt="{{ carro.nome }}">
+                    {% endif %}
+                    
+                    <div class="car-badges">
+                        <span class="badge">{{ carro.ano }}</span>
+                        {% if carro.km %}
+                        <span class="badge">{{ carro.km|floatformat:0 }} km</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="car-info">
+                    <h3>{{ carro.nome }}</h3>
+                    
+                    <div class="car-meta">
+                        <span class="car-meta-item">
+                            <i data-lucide="tag"></i>
+                            {{ carro.marca.nome }}
+                        </span>
+                        <span class="car-meta-item">
+                            <i data-lucide="fuel"></i>
+                            {{ carro.get_combustivel_display }}
+                        </span>
+                        <span class="car-meta-item">
+                            <i data-lucide="settings"></i>
+                            {{ carro.get_cambio_display }}
+                        </span>
+                    </div>
+
+                    <div class="car-preco">R$ {{ carro.preco }}</div>
+
+                    {% if carro.loja.cidade %}
+                    <div class="car-location">
+                        <i data-lucide="map-pin"></i>
+                        <span>{{ carro.loja.cidade.nome }} - {{ carro.loja.cidade.estado }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </a>
+            {% empty %}
+            <div class="empty-state">
+                <i data-lucide="search-x"></i>
+                <h3>Nenhum veículo encontrado</h3>
+                <p>Tente ajustar os filtros ou <a href="{% url 'listar_carros' %}" style="color: #D7242A; font-weight: 600;">ver todos os carros</a></p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+
+{% block extra_scripts %}
+<script>
+/* ============================
+   FILTROS MOBILE - Iniciar colapsado
+============================ */
+document.addEventListener("DOMContentLoaded", function() {
+    const filtros = document.getElementById("filtrosSidebar");
+    const filtrosHeader = document.getElementById("filtrosHeader");
+    const clearBtn = document.getElementById("clearFiltersBtn");
+    
+    if (window.innerWidth <= 768) {
+        filtros.classList.add("collapsed");
+    }
+    
+    // Toggle filtros em mobile
+    if (filtrosHeader) {
+        filtrosHeader.addEventListener("click", function() {
+            if (window.innerWidth <= 768) {
+                filtros.classList.toggle("collapsed");
+            }
+        });
+    }
+    
+    // Limpar filtros
+    if (clearBtn) {
+        clearBtn.addEventListener("click", function() {
+            window.location.href = "{% url 'listar_carros' %}";
+        });
+    }
+});
+
+/* ============================
+   GEOLOCALIZAÇÃO
+============================ */
+document.getElementById("btnGeo")?.addEventListener("click", function () {
+    if (!navigator.geolocation) {
+        alert("Seu navegador não suporta geolocalização.");
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+        sucessoLocalizacao,
+        erroLocalizacao,
+        { enableHighAccuracy: true }
+    );
+});
+
+function sucessoLocalizacao(pos) {
+    const lat = pos.coords.latitude;
+    const lon = pos.coords.longitude;
+
+    const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`;
+
+    fetch(url)
+        .then(resp => resp.json())
+        .then(data => {
+            if (!data.address || !data.address.city) {
+                alert("Não foi possível identificar sua cidade.");
+                return;
+            }
+
+            const cidadeNome = data.address.city.toLowerCase();
+            const select = document.getElementById("selectCidade");
+
+            for (let opt of select.options) {
+                if (opt.text.toLowerCase().includes(cidadeNome)) {
+                    select.value = opt.value;
+                    break;
+                }
+            }
+        })
+        .catch(() => alert("Erro ao identificar a cidade."));
+}
+
+function erroLocalizacao(err) {
+    alert("Não foi possível acessar sua localização.");
+}
+
+/* ============================
+   INICIALIZAR ÍCONES
+============================ */
+lucide.createIcons();
+</script>
+{% endblock %}
+
+{% endblock %}
