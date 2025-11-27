@@ -171,6 +171,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Usando storage simples (sem manifest) para evitar problemas de 404
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
+# Configurações adicionais do WhiteNoise
+WHITENOISE_USE_FINDERS = True  # Permite servir arquivos mesmo sem collectstatic em dev
+WHITENOISE_AUTOREFRESH = True  # Atualiza automaticamente em desenvolvimento
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
