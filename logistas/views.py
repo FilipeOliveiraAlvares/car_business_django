@@ -287,39 +287,10 @@ def editar_loja(request, loja_id):
 
     if request.method == "POST":
         form = LojaForm(request.POST, request.FILES, instance=loja)
-        
-        # Debug: verificar se o formulário recebeu dados
-        import logging
-        logger = logging.getLogger(__name__)
-        logger.info(f"POST data: {dict(request.POST)}")
-        logger.info(f"FILES data: {dict(request.FILES)}")
-        logger.info(f"Form is_valid: {form.is_valid()}")
-        if not form.is_valid():
-            logger.error(f"Form errors: {form.errors}")
-        
         if form.is_valid():
-            try:
-                # Garantir que MEDIA_ROOT existe antes de salvar
-                from django.conf import settings
-                import os
-                if hasattr(settings, 'MEDIA_ROOT') and settings.MEDIA_ROOT:
-                    os.makedirs(settings.MEDIA_ROOT, exist_ok=True)
-                    os.makedirs(os.path.join(settings.MEDIA_ROOT, 'logos'), exist_ok=True)
-                
-                loja_salva = form.save()
-                logger.info(f"Loja {loja_id} salva com sucesso: {loja_salva.nome}")
-                messages.success(request, "Loja atualizada com sucesso!")
-                return redirect(reverse("logistas:painel"))
-            except Exception as e:
-                error_msg = f"Erro ao salvar loja: {str(e)}"
-                logger.error(f"Erro ao salvar loja {loja_id}: {str(e)}", exc_info=True)
-                messages.error(request, error_msg)
-        else:
-            # Mostrar erros do formulário
-            logger.warning(f"Formulário inválido. Erros: {form.errors}")
-            for field, errors in form.errors.items():
-                for error in errors:
-                    messages.error(request, f"{field}: {error}")
+            form.save()
+            messages.success(request, "Loja atualizada com sucesso!")
+            return redirect(reverse("logistas:painel"))
     else:
         form = LojaForm(instance=loja)
 
