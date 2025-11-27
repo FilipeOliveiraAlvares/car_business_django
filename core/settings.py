@@ -199,12 +199,13 @@ if os.environ.get("CSRF_TRUSTED_ORIGINS"):
 
 # Configurações de segurança para produção
 if not DEBUG:
-    SECURE_SSL_REDIRECT = os.environ.get("DJANGO_SECURE_SSL_REDIRECT", "False") == "True"
+    # Railway já gerencia HTTPS, então não precisamos redirecionar
+    SECURE_SSL_REDIRECT = False  # Railway já usa HTTPS, não precisa redirecionar
     SECURE_HSTS_SECONDS = 31536000  # 1 ano
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
     SECURE_BROWSER_XSS_FILTER = True
     X_FRAME_OPTIONS = 'DENY'
-    CSRF_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True  # Mantém True porque Railway usa HTTPS
     CSRF_COOKIE_HTTPONLY = True
