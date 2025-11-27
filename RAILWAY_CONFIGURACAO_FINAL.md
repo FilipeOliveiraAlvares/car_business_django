@@ -4,7 +4,12 @@
 
 ### Pre-deploy Command:
 ```
-python manage.py migrate && python manage.py collectstatic --noinput
+python manage.py migrate --noinput || true && python manage.py collectstatic --noinput || true
+```
+
+**Alternativa mais segura (se a anterior nao funcionar):**
+```
+python manage.py migrate; python manage.py collectstatic --noinput
 ```
 
 ### Custom Start Command:

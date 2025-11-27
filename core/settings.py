@@ -48,8 +48,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',  # Para sitemap.xml
-    'cloudinary_storage',  # Deve vir antes de 'django.contrib.staticfiles'
-    'cloudinary',  # Cloudinary para armazenamento de MEDIA
     'core',  # Necessário para reconhecer comandos de management
     'garagens',
     'carros',
@@ -57,6 +55,16 @@ INSTALLED_APPS = [
     'sitepublico',
     'usuarios',
 ]
+
+# Adicionar Cloudinary apenas se as credenciais estiverem configuradas
+CLOUDINARY_CLOUD_NAME = os.environ.get('CLOUDINARY_CLOUD_NAME', '')
+CLOUDINARY_API_KEY = os.environ.get('CLOUDINARY_API_KEY', '')
+CLOUDINARY_API_SECRET = os.environ.get('CLOUDINARY_API_SECRET', '')
+
+if CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET:
+    # Cloudinary configurado - adicionar aos INSTALLED_APPS
+    INSTALLED_APPS.insert(6, 'cloudinary_storage')  # Antes de staticfiles
+    INSTALLED_APPS.insert(7, 'cloudinary')
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -188,18 +196,17 @@ import os
 
 # Configuração de MEDIA (uploads)
 # Se Cloudinary estiver configurado, usar Cloudinary. Caso contrário, usar sistema de arquivos local
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME', ''),
-    'API_KEY': os.environ.get('CLOUDINARY_API_KEY', ''),
-    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET', ''),
-}
-
-# Se Cloudinary estiver configurado, usar Cloudinary para MEDIA
-if CLOUDINARY_STORAGE['CLOUD_NAME'] and CLOUDINARY_STORAGE['API_KEY'] and CLOUDINARY_STORAGE['API_SECRET']:
+if CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET:
+    # Cloudinary configurado
+    CLOUDINARY_STORAGE = {
+        'CLOUD_NAME': CLOUDINARY_CLOUD_NAME,
+        'API_KEY': CLOUDINARY_API_KEY,
+        'API_SECRET': CLOUDINARY_API_SECRET,
+    }
     DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
     MEDIA_URL = '/media/'  # Cloudinary gerencia a URL automaticamente
 else:
-    # Fallback para sistema de arquivos local (desenvolvimento)
+    # Fallback para sistema de arquivos local (desenvolvimento ou sem Cloudinary)
     MEDIA_URL = '/media/'
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
