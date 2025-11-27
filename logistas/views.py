@@ -288,9 +288,21 @@ def editar_loja(request, loja_id):
     if request.method == "POST":
         form = LojaForm(request.POST, request.FILES, instance=loja)
         if form.is_valid():
-            form.save()
-            messages.success(request, "Loja atualizada com sucesso!")
-            return redirect(reverse("logistas:painel"))
+            try:
+                form.save()
+                messages.success(request, "Loja atualizada com sucesso!")
+                return redirect(reverse("logistas:painel"))
+            except Exception as e:
+                messages.error(request, f"Erro ao salvar loja: {str(e)}")
+                # Log do erro para debug
+                import logging
+                logger = logging.getLogger(__name__)
+                logger.error(f"Erro ao salvar loja {loja_id}: {str(e)}", exc_info=True)
+        else:
+            # Mostrar erros do formulário
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
     else:
         form = LojaForm(instance=loja)
 
