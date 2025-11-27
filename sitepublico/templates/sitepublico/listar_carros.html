@@ -86,6 +86,8 @@
 
     .filtros-content {
         padding: 20px;
+        overflow: hidden;
+        display: block;
     }
 
     .filter-group {
@@ -186,6 +188,11 @@
 
     .filtros button[type="submit"]:active {
         transform: translateY(0);
+    }
+
+    /* Seta de toggle - escondida por padrão (desktop) */
+    .filtros-toggle-btn {
+        display: none;
     }
 
     /* ========== LISTA DE CARROS PROFISSIONAL ========== */
@@ -388,29 +395,92 @@
             padding: 0 15px;
         }
 
+        .filtros {
+            margin-bottom: 20px;
+        }
+
         .filtros-header {
-            cursor: pointer;
             user-select: none;
+            background: linear-gradient(135deg, #D7242A 0%, #B71C1C 100%);
+            color: white;
+            border-radius: 12px 12px 0 0;
+            padding: 18px 20px;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .filtros-header::after {
+        .filtros-header h3 {
+            color: white;
+            margin: 0;
+        }
+
+        /* Mostrar seta apenas em mobile */
+        .filtros-toggle-btn {
+            display: flex !important;
+            cursor: pointer;
+            font-size: 16px;
+            color: white;
+            transition: all 0.3s;
+            padding: 8px 12px;
+            align-items: center;
+            justify-content: center;
+            min-width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            position: relative;
+            z-index: 10;
+            border: none;
+            margin: 0;
+        }
+
+        .filtros-toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .filtros-toggle-btn:active {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .filtros-toggle-btn::after {
             content: "▼";
+            transition: transform 0.3s ease;
+            display: block;
             font-size: 14px;
-            color: #6E6E73;
-            transition: transform 0.3s;
         }
 
-        .filtros.collapsed .filtros-header::after {
+        .filtros.collapsed .filtros-toggle-btn::after {
             transform: rotate(-90deg);
         }
 
-        .filtros-content {
-            display: none;
+        .filtros-header .clear-filters {
+            color: white;
+            opacity: 0.9;
+            font-size: 12px;
+            padding: 4px 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            margin-right: 30px;
         }
 
-        .filtros:not(.collapsed) .filtros-content {
+        .filtros-header .clear-filters:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .filtros-content {
+            padding: 20px;
+            overflow: hidden;
             display: block;
         }
+
+        .filtros.collapsed .filtros-content {
+            display: none !important;
+        }
+
 
         .lista-carros {
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -435,21 +505,49 @@
     }
 
     @media (max-width: 480px) {
+        .page-header {
+            padding: 0 10px;
+        }
+
         .page-header h1 {
             font-size: 22px;
         }
 
+        .layout {
+            padding: 0 10px;
+        }
+
         .lista-carros {
             grid-template-columns: 1fr;
+            gap: 12px;
         }
 
         .car-image-wrapper {
             height: 200px;
         }
 
-        .filtros-header,
+        .filtros-header {
+            padding: 16px 15px;
+        }
+
         .filtros-content {
             padding: 15px;
+        }
+
+        .filter-group {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+        }
+
+        .filtros select,
+        .filtros input {
+            padding: 10px 12px;
+            font-size: 14px;
+        }
+
+        .filtros button[type="submit"] {
+            padding: 12px;
+            font-size: 14px;
         }
     }
 </style>
@@ -480,7 +578,10 @@
     <aside class="filtros" id="filtrosSidebar">
         <div class="filtros-header" id="filtrosHeader">
             <h3>Filtros</h3>
-            <button type="button" class="clear-filters" id="clearFiltersBtn">Limpar</button>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <button type="button" class="clear-filters" id="clearFiltersBtn">Limpar</button>
+                <button type="button" class="filtros-toggle-btn" id="filtrosToggle" aria-label="Abrir/Fechar filtros"></button>
+            </div>
         </div>
 
         <div class="filtros-content">
@@ -660,31 +761,105 @@
 /* ============================
    FILTROS MOBILE - Iniciar colapsado
 ============================ */
-document.addEventListener("DOMContentLoaded", function() {
-    const filtros = document.getElementById("filtrosSidebar");
-    const filtrosHeader = document.getElementById("filtrosHeader");
-    const clearBtn = document.getElementById("clearFiltersBtn");
+// Prevenir carregamento duplo
+if (!window.filtrosScriptLoaded) {
+    window.filtrosScriptLoaded = true;
     
-    if (window.innerWidth <= 768) {
-        filtros.classList.add("collapsed");
-    }
-    
-    // Toggle filtros em mobile
-    if (filtrosHeader) {
-        filtrosHeader.addEventListener("click", function() {
-            if (window.innerWidth <= 768) {
-                filtros.classList.toggle("collapsed");
+    document.addEventListener("DOMContentLoaded", function() {
+        const filtros = document.getElementById("filtrosSidebar");
+        const filtrosToggle = document.getElementById("filtrosToggle");
+        const clearBtn = document.getElementById("clearFiltersBtn");
+        
+        // Verificar se é mobile
+        function isMobile() {
+            return window.innerWidth <= 768;
+        }
+        
+        // Iniciar colapsado apenas em mobile
+        if (isMobile() && filtros) {
+            filtros.classList.add("collapsed");
+            const filtrosContent = filtros.querySelector(".filtros-content");
+            if (filtrosContent) {
+                filtrosContent.style.setProperty("display", "none", "important");
             }
+        }
+        
+        // Toggle filtros ao clicar na seta (apenas em mobile)
+        if (filtrosToggle) {
+            let isToggling = false; // Flag para evitar duplo disparo
+            
+            function toggleFiltros(e) {
+                // Prevenir duplo disparo
+                if (isToggling) {
+                    return;
+                }
+                
+                if (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                
+                if (isMobile() && filtros) {
+                    isToggling = true;
+                    
+                    const filtrosContent = filtros.querySelector(".filtros-content");
+                    
+                    if (!filtrosContent) {
+                        isToggling = false;
+                        return;
+                    }
+                    
+                    filtros.classList.toggle("collapsed");
+                    const agoraCollapsed = filtros.classList.contains("collapsed");
+                    
+                    // Aplicar display diretamente
+                    if (agoraCollapsed) {
+                        filtrosContent.style.setProperty("display", "none", "important");
+                    } else {
+                        filtrosContent.style.setProperty("display", "block", "important");
+                    }
+                    
+                    // Liberar flag após um pequeno delay
+                    setTimeout(() => {
+                        isToggling = false;
+                    }, 300);
+                } else {
+                    isToggling = false;
+                }
+            }
+            
+            // Remover listeners anteriores se existirem
+            filtrosToggle.replaceWith(filtrosToggle.cloneNode(true));
+            const newToggle = document.getElementById("filtrosToggle");
+            
+            // Adicionar apenas um listener
+            newToggle.addEventListener("click", toggleFiltros, { once: false, passive: false });
+        }
+        
+        // Limpar filtros
+        if (clearBtn) {
+            clearBtn.addEventListener("click", function(e) {
+                e.stopPropagation();
+                window.location.href = "{% url 'listar_carros' %}";
+            });
+        }
+        
+        // Ajustar ao redimensionar a janela
+        let resizeTimer;
+        window.addEventListener("resize", function() {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function() {
+                if (!isMobile() && filtros && filtros.classList.contains("collapsed")) {
+                    filtros.classList.remove("collapsed");
+                    const filtrosContent = filtros.querySelector(".filtros-content");
+                    if (filtrosContent) {
+                        filtrosContent.style.setProperty("display", "block", "important");
+                    }
+                }
+            }, 250);
         });
-    }
-    
-    // Limpar filtros
-    if (clearBtn) {
-        clearBtn.addEventListener("click", function() {
-            window.location.href = "{% url 'listar_carros' %}";
-        });
-    }
-});
+    });
+}
 
 /* ============================
    GEOLOCALIZAÇÃO

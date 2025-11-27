@@ -96,7 +96,10 @@ def listar_carros(request):
             pass  # Ignora valores inválidos
 
     if busca:
-        carros = carros.filter(nome__icontains=busca)
+        # Sanitiza a busca removendo caracteres perigosos
+        busca = busca.strip()
+        if busca:
+            carros = carros.filter(nome__icontains=busca)
 
     if combustivel:
         carros = carros.filter(combustivel=combustivel)

@@ -106,6 +106,8 @@ if DATABASE_URL:
                 "ENGINE": "django.db.backends.postgresql",
                 "NAME": os.environ.get("POSTGRES_DB", "sistema_carros"),
                 "USER": os.environ.get("POSTGRES_USER", "postgres"),
+                # ⚠️ AVISO: "admin123" é apenas para desenvolvimento local
+                # Em produção, sempre defina POSTGRES_PASSWORD via variável de ambiente
                 "PASSWORD": os.environ.get("POSTGRES_PASSWORD", "admin123"),
                 "HOST": os.environ.get("POSTGRES_HOST", "localhost"),
                 "PORT": os.environ.get("POSTGRES_PORT", "5432"),
