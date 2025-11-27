@@ -1,0 +1,154 @@
+[
+{
+  "model": "carros.marca",
+  "pk": 14,
+  "fields": {
+    "nome": "Audi",
+    "logo": "marcas/audi.png"
+  }
+},
+{
+  "model": "carros.marca",
+  "pk": 12,
+  "fields": {
+    "nome": "BMW",
+    "logo": "marcas/bmw.webp"
+  }
+},
+{
+  "model": "carros.marca",
+  "pk": 4,
+  "fields": {
+    "nome": "Chevrolet",
+    "logo": "marcas/Chevrolet-Logo_D3yPt5x.png"
+  }
+},
+{
+  "model": "carros.marca",
+  "pk": 11,
+  "fields": {
+    "nome": "Citroën",
+    "logo": "marcas/R.png"
+  }
+},
+{
+  "model": "carros.marca",
+  "pk": 5,
+  "fields": {
+    "nome": "Fiat",
+    "logo": "marcas/Fiat-Emblem.png"
+  }
+},
+{
+  "model": "carros.marca",
+  "pk": 6,
+  "fields": {
+    "nome": "Ford",
+    "logo": "marcas/ford-new-logo.jpg"
+  }
+},
+{
+  "model": "carros.marca",
+  "pk": 2,
+  "fields": {
+    "nome": "Honda",
+    "logo": "marcas/asdasf.webp"
+  }
+},
+{
+  "model": "carros.marca",
+  "pk": 7,
+  "fields": {
+    "nome": "Hyundai",
+    "logo": "marcas/hyundai-logo-1990-download.png"
+  }
+},
+{
+  "model": "carros.marca",
+  "pk": 15,
+  "fields": {
+    "nome": "Jeep",
+    "logo": "marcas/Jeep-Logo.png"
+  }
+},
+{
+  "model": "carros.marca",
+  "pk": 18,
+  "fields": {
+    "nome": "Kia",
+    "logo": "marcas/KIA-Logo-1994-2012.webp"
+  }
+},
+{
+  "model": "carros.marca",
+  "pk": 16,
+  "fields": {
+    "nome": "Land Rover",
+    "logo": "marcas/Land-Rover-Logo-PNG-Free-File-Download.webp"
+  }
+},
+{
+  "model": "carros.marca",
+  "pk": 13,
+  "fields": {
+    "nome": "Mercedes-Benz",
+    "logo": "marcas/mercedes-benz-metallic-logo-isolated-illustration-free-vector.webp"
+  }
+},
+{
+  "model": "carros.marca",
+  "pk": 19,
+  "fields": {
+    "nome": "Mitsubishi",
+    "logo": "marcas/mitsubishi-logo-png_seeklogo-312645.webp"
+  }
+},
+{
+  "model": "carros.marca",
+  "pk": 8,
+  "fields": {
+    "nome": "Nissan",
+    "logo": "marcas/nissan-logo-png_seeklogo-99772.webp"
+  }
+},
+{
+  "model": "carros.marca",
+  "pk": 10,
+  "fields": {
+    "nome": "Peugeot",
+    "logo": "marcas/logoPeugeot_V_RVB-604x403.webp"
+  }
+},
+{
+  "model": "carros.marca",
+  "pk": 9,
+  "fields": {
+    "nome": "Renault",
+    "logo": "marcas/logoPeugeot_V_RVB-604x403_mTZp2p0.webp"
+  }
+},
+{
+  "model": "carros.marca",
+  "pk": 1,
+  "fields": {
+    "nome": "Toyota",
+    "logo": "marcas/qOfxiz.webp"
+  }
+},
+{
+  "model": "carros.marca",
+  "pk": 3,
+  "fields": {
+    "nome": "Volkswagen",
+    "logo": "marcas/old-volkswagen-png-logo-21.webp"
+  }
+},
+{
+  "model": "carros.marca",
+  "pk": 17,
+  "fields": {
+    "nome": "Volvo",
+    "logo": "marcas/volvo-cars-logo-png_seeklogo-299477.webp"
+  }
+}
+]

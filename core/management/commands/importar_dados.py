@@ -35,6 +35,11 @@ class Command(BaseCommand):
             action='store_true',
             help='Pula registros que já existem (evita erros de duplicação)'
         )
+        parser.add_argument(
+            '--importar-categorias',
+            action='store_true',
+            help='Importa categorias (padrão: False - categorias já foram importadas no servidor)'
+        )
 
     def handle(self, *args, **options):
         base_dir = Path(__file__).resolve().parent.parent.parent.parent
@@ -42,46 +47,51 @@ class Command(BaseCommand):
         versoes_file = base_dir / options['versoes']
         categorias_file = base_dir / options['categorias']
         
-        self.stdout.write(self.style.SUCCESS('🚀 Iniciando importação de dados...\n'))
+        self.stdout.write(self.style.SUCCESS('Iniciando importacao de dados...\n'))
         
-        # Importar categorias (se existir)
-        if categorias_file.exists():
-            self.stdout.write(f'📦 Importando categorias de: {categorias_file.name}')
-            try:
-                call_command('loaddata', str(categorias_file), verbosity=0)
-                self.stdout.write(self.style.SUCCESS('✅ Categorias importadas com sucesso!'))
-            except Exception as e:
-                self.stdout.write(self.style.WARNING(f'⚠️  Erro ao importar categorias: {e}'))
+        # Importar categorias (apenas se --importar-categorias for True)
+        importar_categorias = options.get('importar_categorias', False)  # Padrão: False (não importar)
+        
+        if importar_categorias:
+            if categorias_file.exists():
+                self.stdout.write(f'Importando categorias de: {categorias_file.name}')
+                try:
+                    call_command('loaddata', str(categorias_file), verbosity=0)
+                    self.stdout.write(self.style.SUCCESS('[OK] Categorias importadas com sucesso!'))
+                except Exception as e:
+                    self.stdout.write(self.style.WARNING(f'[AVISO] Erro ao importar categorias: {e}'))
+            else:
+                self.stdout.write(self.style.WARNING(f'[AVISO] Arquivo de categorias nao encontrado: {categorias_file.name}'))
         else:
-            self.stdout.write(self.style.WARNING(f'⚠️  Arquivo de categorias não encontrado: {categorias_file.name}'))
+            self.stdout.write('[INFO] Pulando importacao de categorias (ja foram importadas no servidor)')
         
         # Importar modelos
         if modelos_file.exists():
-            self.stdout.write(f'\n📦 Importando modelos de: {modelos_file.name}')
+            self.stdout.write(f'\nImportando modelos de: {modelos_file.name}')
             try:
                 call_command('loaddata', str(modelos_file), verbosity=0)
-                self.stdout.write(self.style.SUCCESS('✅ Modelos importados com sucesso!'))
+                self.stdout.write(self.style.SUCCESS('[OK] Modelos importados com sucesso!'))
             except Exception as e:
                 if 'UNIQUE constraint' in str(e) or 'duplicate key' in str(e).lower():
-                    self.stdout.write(self.style.WARNING(f'⚠️  Alguns modelos já existem. Use --skip-existing para ignorar.'))
+                    self.stdout.write(self.style.WARNING(f'[AVISO] Alguns modelos ja existem. Use --skip-existing para ignorar.'))
                 else:
-                    self.stdout.write(self.style.ERROR(f'❌ Erro ao importar modelos: {e}'))
+                    self.stdout.write(self.style.ERROR(f'[ERRO] Erro ao importar modelos: {e}'))
         else:
-            self.stdout.write(self.style.ERROR(f'❌ Arquivo de modelos não encontrado: {modelos_file.name}'))
+            self.stdout.write(self.style.ERROR(f'[ERRO] Arquivo de modelos nao encontrado: {modelos_file.name}'))
         
         # Importar versões
         if versoes_file.exists():
-            self.stdout.write(f'\n📦 Importando versões de: {versoes_file.name}')
+            self.stdout.write(f'\nImportando versoes de: {versoes_file.name}')
             try:
                 call_command('loaddata', str(versoes_file), verbosity=0)
-                self.stdout.write(self.style.SUCCESS('✅ Versões importadas com sucesso!'))
+                self.stdout.write(self.style.SUCCESS('[OK] Versoes importadas com sucesso!'))
             except Exception as e:
                 if 'UNIQUE constraint' in str(e) or 'duplicate key' in str(e).lower():
-                    self.stdout.write(self.style.WARNING(f'⚠️  Algumas versões já existem. Use --skip-existing para ignorar.'))
+                    self.stdout.write(self.style.WARNING(f'[AVISO] Algumas versoes ja existem. Use --skip-existing para ignorar.'))
                 else:
-                    self.stdout.write(self.style.ERROR(f'❌ Erro ao importar versões: {e}'))
+                    self.stdout.write(self.style.ERROR(f'[ERRO] Erro ao importar versoes: {e}'))
         else:
-            self.stdout.write(self.style.ERROR(f'❌ Arquivo de versões não encontrado: {versoes_file.name}'))
+            self.stdout.write(self.style.ERROR(f'[ERRO] Arquivo de versoes nao encontrado: {versoes_file.name}'))
         
-        self.stdout.write(self.style.SUCCESS('\n✨ Importação concluída!'))
+        self.stdout.write(self.style.SUCCESS('\nImportacao concluida!'))
 
