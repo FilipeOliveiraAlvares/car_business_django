@@ -7,40 +7,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}CarBusiness — Encontre o Seu Próximo Veículo{% endblock %}</title>
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{% static 'img/logo_carbusiness.png' %}">
-    <link rel="apple-touch-icon" href="{% static 'img/logo_carbusiness.png' %}">
-    
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="{% block meta_description %}CarBusiness - A maior plataforma de compra e venda de veículos. Encontre carros novos e usados das melhores lojas. Compare preços, modelos e condições de pagamento.{% endblock %}">
-    <meta name="keywords" content="{% block meta_keywords %}carros, veículos, compra de carro, venda de carro, carros usados, carros novos, concessionárias, lojas de carros{% endblock %}">
-    <meta name="author" content="CarBusiness">
-    <meta name="robots" content="index, follow">
-    <meta name="language" content="Portuguese">
-    <meta name="revisit-after" content="7 days">
-    
-    <!-- Open Graph (Facebook, LinkedIn, WhatsApp, etc.) -->
-    <!-- Nota: Meta tags genéricas - redes sociais podem ser adicionadas no futuro -->
-    <meta property="og:type" content="{% block og_type %}website{% endblock %}">
-    <meta property="og:url" content="{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}">
-    <meta property="og:title" content="{% block og_title %}CarBusiness — Encontre o Seu Próximo Veículo{% endblock %}">
-    <meta property="og:description" content="{% block og_description %}CarBusiness - A maior plataforma de compra e venda de veículos. Encontre carros novos e usados das melhores lojas.{% endblock %}">
-    <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'img/logo_carbusiness.png' %}{% endblock %}">
-    <meta property="og:site_name" content="CarBusiness">
-    <meta property="og:locale" content="pt_BR">
-    
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="{% block twitter_url %}{{ request.build_absolute_uri }}{% endblock %}">
-    <meta name="twitter:title" content="{% block twitter_title %}CarBusiness — Encontre o Seu Próximo Veículo{% endblock %}">
-    <meta name="twitter:description" content="{% block twitter_description %}CarBusiness - A maior plataforma de compra e venda de veículos. Encontre carros novos e usados das melhores lojas.{% endblock %}">
-    <meta name="twitter:image" content="{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'img/logo_carbusiness.png' %}{% endblock %}">
-    
-    <!-- Canonical URL -->
-    <link rel="canonical" href="{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock %}">
-    
+    <title>{% block title %}CarBusiness{% endblock %}</title>
+
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
@@ -260,11 +228,11 @@
     <header>
         <div class="nav" id="mainNav">
 
-            <a href="/" aria-label="CarBusiness - Página inicial">
-                <img src="{% static 'img/logo_carbusiness.png' %}" class="logo" alt="CarBusiness - Encontre o seu próximo veículo" width="150" height="50">
+            <a href="/">
+                <img src="{% static 'img/logo_carbusiness.png' %}" class="logo" alt="CarBusiness">
             </a>
 
-            <button class="mobile-toggle" id="mobileToggle" aria-label="Abrir menu de navegação" aria-expanded="false">
+            <button class="mobile-toggle" id="mobileToggle">
                 <svg viewBox="0 0 24 24">
                     <path d="M4 6H20" stroke="#222" stroke-width="2" stroke-linecap="round" />
                     <path d="M4 12H20" stroke="#222" stroke-width="2" stroke-linecap="round" />
@@ -317,14 +285,12 @@
         const toggle = document.getElementById("mobileToggle");
 
         toggle?.addEventListener("click", () => {
-            const isOpen = nav.classList.toggle("open");
-            toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+            nav.classList.toggle("open");
         });
 
         document.addEventListener("click", (e) => {
             if (!nav.contains(e.target)) {
                 nav.classList.remove("open");
-                toggle?.setAttribute("aria-expanded", "false");
             }
         });
     </script>

@@ -3,26 +3,7 @@
 
 {% block title %}CarBusiness — Encontre o Seu Próximo Veículo{% endblock %}
 
-{% block meta_description %}CarBusiness - A maior plataforma de compra e venda de veículos do Brasil. Encontre carros novos e usados das melhores lojas. Compare preços, modelos e condições de pagamento.{% endblock %}
-
-{% block meta_keywords %}carros, veículos, compra de carro, venda de carro, carros usados, carros novos, concessionárias, lojas de carros, CarBusiness{% endblock %}
-
 {% block head %}
-<!-- Structured Data (JSON-LD) para Site -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "CarBusiness",
-  "url": "{{ request.scheme }}://{{ request.get_host }}",
-  "description": "A maior plataforma de compra e venda de veículos do Brasil",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": "{{ request.scheme }}://{{ request.get_host }}/carros/?busca={search_term_string}",
-    "query-input": "required name=search_term_string"
-  }
-}
-</script>
 <style>
     body {
         background: linear-gradient(to bottom, #F5F7FA 0%, #ffffff 100%);
@@ -500,10 +481,9 @@
         {% for marca in marcas %}
         <a href="{% url 'listar_carros' %}?marca={{ marca.id }}" class="marca-card">
             {% if marca.logo %}
-            <img src="{{ marca.logo.url }}" alt="{{ marca.nome }}" onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <div class="marca-placeholder" style="display: none; width: 100%; height: 100%; align-items: center; justify-content: center; background: #f0f0f0; border-radius: 8px; font-size: 14px; font-weight: 600; color: #666;">{{ marca.nome|slice:":3"|upper }}</div>
+            <img src="{{ marca.logo.url }}" alt="{{ marca.nome }}">
             {% else %}
-            <div class="marca-placeholder" style="display: flex; width: 100%; height: 100%; align-items: center; justify-content: center; background: #f0f0f0; border-radius: 8px; font-size: 14px; font-weight: 600; color: #666;">{{ marca.nome|slice:":3"|upper }}</div>
+            <img src="{% static 'img/sem-logo.png' %}" alt="{{ marca.nome }}">
             {% endif %}
             <div>{{ marca.nome }}</div>
         </a>

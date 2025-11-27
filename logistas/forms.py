@@ -21,8 +21,8 @@ class LojaForm(forms.ModelForm):
             'endereco': forms.TextInput(attrs={'placeholder': 'Rua, número, bairro...'}),
             'telefone': forms.TextInput(attrs={'placeholder': '(99) 99999-9999'}),
             'whatsapp': forms.TextInput(attrs={'placeholder': '(99) 99999-9999 ou 5599999999999'}),
-            'instagram': forms.URLInput(attrs={'placeholder': 'https://instagram.com/sualoja'}),
-            'facebook': forms.URLInput(attrs={'placeholder': 'https://facebook.com/sualoja'}),
+            'instagram': forms.TextInput(attrs={'placeholder': '@sualoja'}),
+            'facebook': forms.TextInput(attrs={'placeholder': 'facebook.com/sualoja'}),
             'site': forms.URLInput(attrs={'placeholder': 'https://www.sualoja.com'}),
             'maps_url': forms.URLInput(attrs={'placeholder': 'Cole aqui o link do Google Maps'}),
         }

@@ -1,61 +1,9 @@
 {% extends "sitepublico/base_publico.html" %}
 {% load static %}
 
-{% block title %}{{ carro.nome }} {{ carro.ano }} — R$ {{ carro.preco|floatformat:0 }} | CarBusiness{% endblock %}
-
-{% block meta_description %}{{ carro.nome }} {{ carro.ano }} - {{ carro.marca.nome }} - {{ carro.combustivel }} - {{ carro.cambio }} - {{ carro.portas }} portas - {{ carro.km|floatformat:0 }} km. Preço: R$ {{ carro.preco|floatformat:0 }}. Veja todas as fotos e informações completas na CarBusiness.{% endblock %}
-
-{% block og_type %}product{% endblock %}
-{% block og_title %}{{ carro.nome }} {{ carro.ano }} — R$ {{ carro.preco|floatformat:0 }}{% endblock %}
-{% block og_description %}{{ carro.nome }} {{ carro.ano }} - {{ carro.marca.nome }} - {{ carro.combustivel }} - {{ carro.cambio }} - R$ {{ carro.preco|floatformat:0 }}{% endblock %}
-{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{{ carro.foto_principal.url }}{% endblock %}
-
-{% block twitter_title %}{{ carro.nome }} {{ carro.ano }} — R$ {{ carro.preco|floatformat:0 }}{% endblock %}
-{% block twitter_description %}{{ carro.nome }} {{ carro.ano }} - {{ carro.marca.nome }} - R$ {{ carro.preco|floatformat:0 }}{% endblock %}
-{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{{ carro.foto_principal.url }}{% endblock %}
+{% block title %}{{ carro.nome }} — CarBusiness{% endblock %}
 
 {% block head %}
-<!-- Structured Data (JSON-LD) para Carro -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Vehicle",
-  "name": "{{ carro.nome }}",
-  "brand": {
-    "@type": "Brand",
-    "name": "{{ carro.marca.nome }}"
-  },
-  "model": "{{ carro.modelo.nome|default:carro.nome }}",
-  "productionDate": "{{ carro.ano }}",
-  "mileageFromOdometer": {
-    "@type": "QuantitativeValue",
-    "value": {{ carro.km }},
-    "unitCode": "KMT"
-  },
-  "vehicleIdentificationNumber": "{{ carro.id }}",
-  "color": "{{ carro.cor }}",
-  "numberOfDoors": {{ carro.portas }},
-  "fuelType": "{{ carro.get_combustivel_display }}",
-  "offers": {
-    "@type": "Offer",
-    "price": "{{ carro.preco }}",
-    "priceCurrency": "BRL",
-    "availability": "https://schema.org/InStock",
-    "seller": {
-      "@type": "AutoDealer",
-      "name": "{{ carro.loja.nome }}",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "{{ carro.loja.cidade.nome }}",
-        "addressRegion": "{{ carro.loja.cidade.estado|default:'' }}",
-        "addressCountry": "BR"
-      }
-    }
-  },
-  "image": "{{ request.scheme }}://{{ request.get_host }}{{ carro.foto_principal.url }}",
-  "description": "{{ carro.descricao|default:carro.nome|truncatewords:30 }}"
-}
-</script>
 <script src="https://unpkg.com/lucide@latest"></script>
 <style>
     body {
@@ -493,9 +441,9 @@
                 {% endif %}
 
                 {% if carro.foto_principal %}
-                <img id="fotoPrincipal" class="foto-principal" src="{{ carro.foto_principal.url }}" alt="{{ carro.nome }} {{ carro.ano }} - {{ carro.marca.nome }}" loading="lazy">
+                <img id="fotoPrincipal" class="foto-principal" src="{{ carro.foto_principal.url }}" alt="{{ carro.nome }}">
                 {% else %}
-                <img id="fotoPrincipal" class="foto-principal" src="https://via.placeholder.com/800x500?text=Sem+Imagem" alt="{{ carro.nome }} {{ carro.ano }} - {{ carro.marca.nome }}" loading="lazy">
+                <img id="fotoPrincipal" class="foto-principal" src="https://via.placeholder.com/800x500?text=Sem+Imagem" alt="{{ carro.nome }}">
                 {% endif %}
             </div>
 
@@ -537,10 +485,9 @@
             <div class="loja-card">
                 <div class="loja-header">
                     {% if carro.loja.logo %}
-                    <img src="{{ carro.loja.logo.url }}" alt="{{ carro.loja.nome }}" class="loja-logo" onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="loja-logo" style="display: none; background: #e8e8e8; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: #666;">{{ carro.loja.nome|slice:":2"|upper }}</div>
+                    <img src="{{ carro.loja.logo.url }}" alt="{{ carro.loja.nome }}" class="loja-logo">
                     {% else %}
-                    <div class="loja-logo" style="background: #e8e8e8; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: #666;">{{ carro.loja.nome|slice:":2"|upper }}</div>
+                    <div class="loja-logo" style="background: #e8e8e8;"></div>
                     {% endif %}
                     <h3 class="loja-name">{{ carro.loja.nome }}</h3>
                 </div>
