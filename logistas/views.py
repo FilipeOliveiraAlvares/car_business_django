@@ -291,9 +291,11 @@ def editar_loja(request, loja_id):
         # Debug: verificar se o formulário recebeu dados
         import logging
         logger = logging.getLogger(__name__)
-        logger.info(f"POST data: {request.POST}")
-        logger.info(f"FILES data: {request.FILES}")
+        logger.info(f"POST data: {dict(request.POST)}")
+        logger.info(f"FILES data: {dict(request.FILES)}")
         logger.info(f"Form is_valid: {form.is_valid()}")
+        if not form.is_valid():
+            logger.error(f"Form errors: {form.errors}")
         
         if form.is_valid():
             try:
