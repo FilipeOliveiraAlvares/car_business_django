@@ -537,9 +537,10 @@
             <div class="loja-card">
                 <div class="loja-header">
                     {% if carro.loja.logo %}
-                    <img src="{{ carro.loja.logo.url }}" alt="{{ carro.loja.nome }}" class="loja-logo">
+                    <img src="{{ carro.loja.logo.url }}" alt="{{ carro.loja.nome }}" class="loja-logo" onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="loja-logo" style="display: none; background: #e8e8e8; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: #666;">{{ carro.loja.nome|slice:":2"|upper }}</div>
                     {% else %}
-                    <div class="loja-logo" style="background: #e8e8e8;"></div>
+                    <div class="loja-logo" style="background: #e8e8e8; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: #666;">{{ carro.loja.nome|slice:":2"|upper }}</div>
                     {% endif %}
                     <h3 class="loja-name">{{ carro.loja.nome }}</h3>
                 </div>
