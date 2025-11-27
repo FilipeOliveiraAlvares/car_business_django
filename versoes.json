@@ -2653,5 +2653,692 @@
             "modelo": 97,
             "nome": "Kicks XPlay 1.6"
         }
+    },{
+        "model": "carros.versaoveiculo",
+        "pk": 90001,
+        "fields": {
+            "modelo": 98,
+            "nome": "2.0"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90002,
+        "fields": {
+            "modelo": 98,
+            "nome": "2.0 R-Design"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90003,
+        "fields": {
+            "modelo": 98,
+            "nome": "T5 2.5 Turbo"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90004,
+        "fields": {
+            "modelo": 99,
+            "nome": "SE 2.0 Turbo"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90005,
+        "fields": {
+            "modelo": 99,
+            "nome": "Dynamic 2.0 Turbo"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90006,
+        "fields": {
+            "modelo": 99,
+            "nome": "HSE Dynamic 2.0 Turbo"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90007,
+        "fields": {
+            "modelo": 99,
+            "nome": "Pure Tech 2.0 Turbo"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90008,
+        "fields": {
+            "modelo": 100,
+            "nome": "2.0i AWD"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90009,
+        "fields": {
+            "modelo": 100,
+            "nome": "2.0 XT Turbo AWD"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90010,
+        "fields": {
+            "modelo": 100,
+            "nome": "2.0i-S AWD"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90011,
+        "fields": {
+            "modelo": 101,
+            "nome": "1.6i"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90012,
+        "fields": {
+            "modelo": 101,
+            "nome": "2.0i"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90013,
+        "fields": {
+            "modelo": 101,
+            "nome": "2.0i Sport"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90014,
+        "fields": {
+            "modelo": 102,
+            "nome": "2.5i AWD"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90015,
+        "fields": {
+            "modelo": 102,
+            "nome": "3.6R AWD"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90016,
+        "fields": {
+            "modelo": 103,
+            "nome": "3.6R"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90017,
+        "fields": {
+            "modelo": 104,
+            "nome": "4Sport 2.0"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90018,
+        "fields": {
+            "modelo": 104,
+            "nome": "4Sport 4x4 2.0"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90019,
+        "fields": {
+            "modelo": 104,
+            "nome": "4Sport 3.2 V6"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90020,
+        "fields": {
+            "modelo": 105,
+            "nome": "4Work 1.3"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90021,
+        "fields": {
+            "modelo": 105,
+            "nome": "4All 1.3"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90022,
+        "fields": {
+            "modelo": 105,
+            "nome": "4Sport 1.3"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90023,
+        "fields": {
+            "modelo": 106,
+            "nome": "2.0 AWD"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90024,
+        "fields": {
+            "modelo": 106,
+            "nome": "2.0 4x2"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90025,
+        "fields": {
+            "modelo": 107,
+            "nome": "XLE 3.5 V6"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90026,
+        "fields": {
+            "modelo": 107,
+            "nome": "Hybrid XLE"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90025,
+        "fields": {
+            "modelo": 107,
+            "nome": "XLE 3.5 V6"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90026,
+        "fields": {
+            "modelo": 107,
+            "nome": "Hybrid XLE"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90027,
+        "fields": {
+            "modelo": 108,
+            "nome": "4.0 V6 4x4"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90028,
+        "fields": {
+            "modelo": 109,
+            "nome": "1.8 Hybrid"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90029,
+        "fields": {
+            "modelo": 109,
+            "nome": "1.8 Hybrid Touring"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90030,
+        "fields": {
+            "modelo": 110,
+            "nome": "3.0 Turbo GR"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90031,
+        "fields": {
+            "modelo": 110,
+            "nome": "2.0 Turbo GR"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90032,
+        "fields": {
+            "modelo": 111,
+            "nome": "T4 Momentum"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90033,
+        "fields": {
+            "modelo": 111,
+            "nome": "T5 R-Design"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90034,
+        "fields": {
+            "modelo": 111,
+            "nome": "Recharge Plug-in Hybrid"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90035,
+        "fields": {
+            "modelo": 112,
+            "nome": "T5 Momentum"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90036,
+        "fields": {
+            "modelo": 112,
+            "nome": "T6 R-Design"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90037,
+        "fields": {
+            "modelo": 112,
+            "nome": "Recharge T8 Plug-in Hybrid"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90038,
+        "fields": {
+            "modelo": 113,
+            "nome": "T6 Inscription"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90039,
+        "fields": {
+            "modelo": 113,
+            "nome": "T8 Hybrid Inscription"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90040,
+        "fields": {
+            "modelo": 115,
+            "nome": "1.6"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90041,
+        "fields": {
+            "modelo": 115,
+            "nome": "1.6 I-Motion"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90042,
+        "fields": {
+            "modelo": 116,
+            "nome": "Elétrico 136cv"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90043,
+        "fields": {
+            "modelo": 118,
+            "nome": "1.4 TSI Plug-in Hybrid"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90044,
+        "fields": {
+            "modelo": 119,
+            "nome": "Pro Performance 204cv"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90045,
+        "fields": {
+            "modelo": 119,
+            "nome": "GTX 299cv"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90046,
+        "fields": {
+            "modelo": 120,
+            "nome": "2.0 TSI GLI"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90047,
+        "fields": {
+            "modelo": 121,
+            "nome": "Comfortline 1.0 TSI"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90048,
+        "fields": {
+            "modelo": 121,
+            "nome": "Highline 1.0 TSI"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90049,
+        "fields": {
+            "modelo": 122,
+            "nome": "2.0 TSI"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90050,
+        "fields": {
+            "modelo": 122,
+            "nome": "R-Line 2.0 TSI"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90051,
+        "fields": {
+            "modelo": 123,
+            "nome": "Comfortline 1.4 TSI"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90052,
+        "fields": {
+            "modelo": 123,
+            "nome": "Highline 1.4 TSI"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90053,
+        "fields": {
+            "modelo": 124,
+            "nome": "250 TSI"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90054,
+        "fields": {
+            "modelo": 124,
+            "nome": "350 TSI R-Line"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90055,
+        "fields": {
+            "modelo": 125,
+            "nome": "T4 Momentum"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90056,
+        "fields": {
+            "modelo": 125,
+            "nome": "T5 R-Design"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90057,
+        "fields": {
+            "modelo": 126,
+            "nome": "T8 Hybrid Inscription"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90058,
+        "fields": {
+            "modelo": 127,
+            "nome": "T4 Momentum"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90059,
+        "fields": {
+            "modelo": 127,
+            "nome": "T5 R-Design"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90060,
+        "fields": {
+            "modelo": 128,
+            "nome": "T5 Momentum"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90061,
+        "fields": {
+            "modelo": 128,
+            "nome": "T8 Hybrid R-Design"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90062,
+        "fields": {
+            "modelo": 129,
+            "nome": "T6 Inscription"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90063,
+        "fields": {
+            "modelo": 130,
+            "nome": "2.5T 4x4"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90064,
+        "fields": {
+            "modelo": 130,
+            "nome": "4.4 V8 4x4"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90065,
+        "fields": {
+            "modelo": 131,
+            "nome": "Dynamique 2.5 4x4"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90066,
+        "fields": {
+            "modelo": 132,
+            "nome": "2.0 Turbo RS"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90067,
+        "fields": {
+            "modelo": 132,
+            "nome": "2.0 Turbo RS Trophy"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90068,
+        "fields": {
+            "modelo": 133,
+            "nome": "1.6 TCe"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90069,
+        "fields": {
+            "modelo": 133,
+            "nome": "2.0 dCi"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90070,
+        "fields": {
+            "modelo": 134,
+            "nome": "2.5 SL"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90071,
+        "fields": {
+            "modelo": 134,
+            "nome": "3.5 V6 SL"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90072,
+        "fields": {
+            "modelo": 135,
+            "nome": "5.6 V8 4x4"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90073,
+        "fields": {
+            "modelo": 136,
+            "nome": "1.8 S"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90074,
+        "fields": {
+            "modelo": 136,
+            "nome": "1.8 SL"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90075,
+        "fields": {
+            "modelo": 137,
+            "nome": "1.6 Turbo"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90076,
+        "fields": {
+            "modelo": 137,
+            "nome": "1.6 Turbo Nismo"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90077,
+        "fields": {
+            "modelo": 138,
+            "nome": "3.5 V6"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90078,
+        "fields": {
+            "modelo": 139,
+            "nome": "3.5 V6 4x4"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90079,
+        "fields": {
+            "modelo": 140,
+            "nome": "5.6 V8 4x4"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90080,
+        "fields": {
+            "modelo": 141,
+            "nome": "3.5 V6"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90081,
+        "fields": {
+            "modelo": 142,
+            "nome": "2.0 SE-R"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90082,
+        "fields": {
+            "modelo": 142,
+            "nome": "2.0 SE-R Spec V"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90083,
+        "fields": {
+            "modelo": 143,
+            "nome": "2.0 4x2"
+        }
+    },
+    {
+        "model": "carros.versaoveiculo",
+        "pk": 90084,
+        "fields": {
+            "modelo": 143,
+            "nome": "2.5 4x4"
+        }
     }
 ]
