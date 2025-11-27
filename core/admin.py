@@ -8,7 +8,9 @@ admin.site.index_title = "Bem-vindo ao painel do Car Business"
 
 # Função para exibir o logo no cabeçalho
 def custom_admin_logo():
-    return format_html('<img src="/static/admin/img/logo.png" height="50" alt="Car Business Logo">')
+    from django.contrib.staticfiles.storage import staticfiles_storage
+    logo_url = staticfiles_storage.url('admin/img/logo.png')
+    return format_html('<img src="{}" height="50" alt="Car Business Logo">', logo_url)
 
 # Substituir o header padrão
 admin.site.site_header = format_html(
