@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'core',  # Necessário para reconhecer comandos de management
     'garagens',
     'carros',
     'logistas',
