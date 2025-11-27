@@ -25,8 +25,8 @@
     <!-- Nota: Meta tags genéricas - redes sociais podem ser adicionadas no futuro -->
     <meta property="og:type" content="{% block og_type %}website{% endblock %}">
     <meta property="og:url" content="{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}">
-    <meta property="og:title" content="{% block og_title %}{% block title %}CarBusiness — Encontre o Seu Próximo Veículo{% endblock %}{% endblock %}">
-    <meta property="og:description" content="{% block og_description %}{% block meta_description %}CarBusiness - A maior plataforma de compra e venda de veículos. Encontre carros novos e usados das melhores lojas.{% endblock %}{% endblock %}">
+    <meta property="og:title" content="{% block og_title %}CarBusiness — Encontre o Seu Próximo Veículo{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}CarBusiness - A maior plataforma de compra e venda de veículos. Encontre carros novos e usados das melhores lojas.{% endblock %}">
     <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'img/logo_carbusiness.png' %}{% endblock %}">
     <meta property="og:site_name" content="CarBusiness">
     <meta property="og:locale" content="pt_BR">
@@ -34,8 +34,8 @@
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="{% block twitter_url %}{{ request.build_absolute_uri }}{% endblock %}">
-    <meta name="twitter:title" content="{% block twitter_title %}{% block title %}CarBusiness — Encontre o Seu Próximo Veículo{% endblock %}{% endblock %}">
-    <meta name="twitter:description" content="{% block twitter_description %}{% block meta_description %}CarBusiness - A maior plataforma de compra e venda de veículos. Encontre carros novos e usados das melhores lojas.{% endblock %}{% endblock %}">
+    <meta name="twitter:title" content="{% block twitter_title %}CarBusiness — Encontre o Seu Próximo Veículo{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}CarBusiness - A maior plataforma de compra e venda de veículos. Encontre carros novos e usados das melhores lojas.{% endblock %}">
     <meta name="twitter:image" content="{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'img/logo_carbusiness.png' %}{% endblock %}">
     
     <!-- Canonical URL -->
