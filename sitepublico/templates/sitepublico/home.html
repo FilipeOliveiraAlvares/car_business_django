@@ -3,7 +3,26 @@
 
 {% block title %}CarBusiness — Encontre o Seu Próximo Veículo{% endblock %}
 
+{% block meta_description %}CarBusiness - A maior plataforma de compra e venda de veículos do Brasil. Encontre carros novos e usados das melhores lojas. Compare preços, modelos e condições de pagamento.{% endblock %}
+
+{% block meta_keywords %}carros, veículos, compra de carro, venda de carro, carros usados, carros novos, concessionárias, lojas de carros, CarBusiness{% endblock %}
+
 {% block head %}
+<!-- Structured Data (JSON-LD) para Site -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "CarBusiness",
+  "url": "{{ request.scheme }}://{{ request.get_host }}",
+  "description": "A maior plataforma de compra e venda de veículos do Brasil",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "{{ request.scheme }}://{{ request.get_host }}/carros/?busca={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
 <style>
     body {
         background: linear-gradient(to bottom, #F5F7FA 0%, #ffffff 100%);

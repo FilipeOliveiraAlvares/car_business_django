@@ -1,9 +1,32 @@
 {% extends "sitepublico/base_publico.html" %}
 {% load static %}
 
-{% block title %}{{ loja.nome }} — CarBusiness{% endblock %}
+{% block title %}{{ loja.nome }} — {{ loja.cidade.nome }} | CarBusiness{% endblock %}
+
+{% block meta_description %}{{ loja.nome }} em {{ loja.cidade.nome }}. Veja nossos carros à venda. {{ loja.carros.count }} veículos disponíveis. Entre em contato e encontre o carro ideal!{% endblock %}
+
+{% block og_title %}{{ loja.nome }} — {{ loja.cidade.nome }}{% endblock %}
+{% block og_description %}{{ loja.nome }} - {{ loja.carros.count }} veículos disponíveis em {{ loja.cidade.nome }}{% endblock %}
+{% block og_image %}{% if loja.logo %}{{ request.scheme }}://{{ request.get_host }}{{ loja.logo.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'img/logo_carbusiness.png' %}{% endif %}{% endblock %}
 
 {% block head %}
+<!-- Structured Data (JSON-LD) para Loja -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "AutoDealer",
+  "name": "{{ loja.nome }}",
+  "description": "{{ loja.descricao|default:loja.nome }}",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "{{ loja.cidade.nome }}",
+    "addressRegion": "{{ loja.cidade.estado|default:'' }}",
+    "addressCountry": "BR"
+  },
+  "url": "{{ request.scheme }}://{{ request.get_host }}{% url 'pagina_loja' loja.id %}",
+  "image": "{% if loja.logo %}{{ request.scheme }}://{{ request.get_host }}{{ loja.logo.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'img/logo_carbusiness.png' %}{% endif %}"
+}
+</script>
 <script src="https://unpkg.com/lucide@latest"></script>
 <style>
     body {

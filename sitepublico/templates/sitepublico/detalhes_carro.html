@@ -1,9 +1,61 @@
 {% extends "sitepublico/base_publico.html" %}
 {% load static %}
 
-{% block title %}{{ carro.nome }} — CarBusiness{% endblock %}
+{% block title %}{{ carro.nome }} {{ carro.ano }} — R$ {{ carro.preco|floatformat:0 }} | CarBusiness{% endblock %}
+
+{% block meta_description %}{{ carro.nome }} {{ carro.ano }} - {{ carro.marca.nome }} - {{ carro.combustivel }} - {{ carro.cambio }} - {{ carro.portas }} portas - {{ carro.km|floatformat:0 }} km. Preço: R$ {{ carro.preco|floatformat:0 }}. Veja todas as fotos e informações completas na CarBusiness.{% endblock %}
+
+{% block og_type %}product{% endblock %}
+{% block og_title %}{{ carro.nome }} {{ carro.ano }} — R$ {{ carro.preco|floatformat:0 }}{% endblock %}
+{% block og_description %}{{ carro.nome }} {{ carro.ano }} - {{ carro.marca.nome }} - {{ carro.combustivel }} - {{ carro.cambio }} - R$ {{ carro.preco|floatformat:0 }}{% endblock %}
+{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{{ carro.foto_principal.url }}{% endblock %}
+
+{% block twitter_title %}{{ carro.nome }} {{ carro.ano }} — R$ {{ carro.preco|floatformat:0 }}{% endblock %}
+{% block twitter_description %}{{ carro.nome }} {{ carro.ano }} - {{ carro.marca.nome }} - R$ {{ carro.preco|floatformat:0 }}{% endblock %}
+{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{{ carro.foto_principal.url }}{% endblock %}
 
 {% block head %}
+<!-- Structured Data (JSON-LD) para Carro -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Vehicle",
+  "name": "{{ carro.nome }}",
+  "brand": {
+    "@type": "Brand",
+    "name": "{{ carro.marca.nome }}"
+  },
+  "model": "{{ carro.modelo.nome|default:carro.nome }}",
+  "productionDate": "{{ carro.ano }}",
+  "mileageFromOdometer": {
+    "@type": "QuantitativeValue",
+    "value": {{ carro.km }},
+    "unitCode": "KMT"
+  },
+  "vehicleIdentificationNumber": "{{ carro.id }}",
+  "color": "{{ carro.cor }}",
+  "numberOfDoors": {{ carro.portas }},
+  "fuelType": "{{ carro.get_combustivel_display }}",
+  "offers": {
+    "@type": "Offer",
+    "price": "{{ carro.preco }}",
+    "priceCurrency": "BRL",
+    "availability": "https://schema.org/InStock",
+    "seller": {
+      "@type": "AutoDealer",
+      "name": "{{ carro.loja.nome }}",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "{{ carro.loja.cidade.nome }}",
+        "addressRegion": "{{ carro.loja.cidade.estado|default:'' }}",
+        "addressCountry": "BR"
+      }
+    }
+  },
+  "image": "{{ request.scheme }}://{{ request.get_host }}{{ carro.foto_principal.url }}",
+  "description": "{{ carro.descricao|default:carro.nome|truncatewords:30 }}"
+}
+</script>
 <script src="https://unpkg.com/lucide@latest"></script>
 <style>
     body {
@@ -441,9 +493,9 @@
                 {% endif %}
 
                 {% if carro.foto_principal %}
-                <img id="fotoPrincipal" class="foto-principal" src="{{ carro.foto_principal.url }}" alt="{{ carro.nome }}">
+                <img id="fotoPrincipal" class="foto-principal" src="{{ carro.foto_principal.url }}" alt="{{ carro.nome }} {{ carro.ano }} - {{ carro.marca.nome }}" loading="lazy">
                 {% else %}
-                <img id="fotoPrincipal" class="foto-principal" src="https://via.placeholder.com/800x500?text=Sem+Imagem" alt="{{ carro.nome }}">
+                <img id="fotoPrincipal" class="foto-principal" src="https://via.placeholder.com/800x500?text=Sem+Imagem" alt="{{ carro.nome }} {{ carro.ano }} - {{ carro.marca.nome }}" loading="lazy">
                 {% endif %}
             </div>
 
