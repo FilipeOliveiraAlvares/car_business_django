@@ -198,9 +198,11 @@ SESSION_COOKIE_SAMESITE = 'Lax'  # Permite compartilhar sessão entre áreas
 SESSION_SAVE_EVERY_REQUEST = True  # Renova a sessão a cada requisição
 
 # CSRF Trusted Origins (necessário para produção)
+# Formato: CSRF_TRUSTED_ORIGINS=https://seu-app.railway.app (sem espaços, com https://)
 CSRF_TRUSTED_ORIGINS = []
 if os.environ.get("CSRF_TRUSTED_ORIGINS"):
-    CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in os.environ.get("CSRF_TRUSTED_ORIGINS").split(",") if origin.strip()]
+    origins = os.environ.get("CSRF_TRUSTED_ORIGINS").split(",")
+    CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in origins if origin.strip()]
 
 # Configurações de segurança para produção
 if not DEBUG:
