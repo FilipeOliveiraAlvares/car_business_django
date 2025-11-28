@@ -200,9 +200,21 @@ SESSION_SAVE_EVERY_REQUEST = True  # Renova a sessão a cada requisição
 # CSRF Trusted Origins (necessário para produção)
 # Formato: CSRF_TRUSTED_ORIGINS=https://seu-app.railway.app (sem espaços, com https://)
 CSRF_TRUSTED_ORIGINS = []
+
+# Adicionar origens confiáveis de CSRF
 if os.environ.get("CSRF_TRUSTED_ORIGINS"):
     origins = os.environ.get("CSRF_TRUSTED_ORIGINS").split(",")
     CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in origins if origin.strip()]
+
+# Fallback: se ALLOWED_HOSTS estiver configurado, adicionar automaticamente
+if not DEBUG and os.environ.get("DJANGO_ALLOWED_HOSTS"):
+    allowed_hosts = os.environ.get("DJANGO_ALLOWED_HOSTS").split(",")
+    for host in allowed_hosts:
+        host = host.strip()
+        if host and not host.startswith("*"):
+            # Adicionar com https://
+            if host not in CSRF_TRUSTED_ORIGINS:
+                CSRF_TRUSTED_ORIGINS.append(f"https://{host}")
 
 # Configurações de segurança para produção
 if not DEBUG:
