@@ -54,6 +54,8 @@ Thumbs.db
 # Arquivos de backup
 *.bak
 *.backup
+# Mas permitir backup_inicial.json (será versionado)
+!backup_inicial.json
 
 # Arquivos sensíveis
 SECRET_KEY.txt
