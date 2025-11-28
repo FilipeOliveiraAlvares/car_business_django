@@ -50,47 +50,96 @@ class Command(BaseCommand):
             ]
 
             # Se username foi fornecido, adicionar o superusuário
+            user_to_backup = None
             if options['username']:
                 try:
-                    user = User.objects.get(username=options['username'], is_superuser=True)
-                    # Backup com usuário + modelos
-                    models_to_backup.insert(0, f'auth.User.{user.id}')
-                    self.stdout.write(f'Incluindo superusuário: {user.username}')
+                    user_to_backup = User.objects.get(username=options['username'], is_superuser=True)
+                    self.stdout.write(f'Incluindo superusuario: {user_to_backup.username}')
                 except User.DoesNotExist:
                     self.stdout.write(
                         self.style.WARNING(
-                            f'Superusuário "{options["username"]}" não encontrado. '
-                            'Fazendo backup sem usuário.'
+                            f'Superusuario "{options["username"]}" nao encontrado. '
+                            'Fazendo backup sem usuario.'
                         )
                     )
 
-            # Executar dumpdata
+            # Executar dumpdata - gerar um único array JSON válido
+            import json
+            from pathlib import Path
+            
+            # Criar lista para armazenar todos os objetos
+            all_data = []
+            
+            # Se tiver usuário, adicionar primeiro
+            if user_to_backup:
+                tmp_user_file = base_dir / 'tmp_user_backup.json'
+                try:
+                    with open(tmp_user_file, 'w', encoding='utf-8') as tmp:
+                        call_command(
+                            'dumpdata',
+                            'auth.user',
+                            '--pks', str(user_to_backup.id),
+                            '--indent', '2',
+                            '--natural-foreign',
+                            '--natural-primary',
+                            stdout=tmp
+                        )
+                    # Ler o arquivo temporário
+                    with open(tmp_user_file, 'r', encoding='utf-8') as tmp_read:
+                        user_data = json.load(tmp_read)
+                        if isinstance(user_data, list):
+                            all_data.extend(user_data)
+                        else:
+                            all_data.append(user_data)
+                finally:
+                    # Remover arquivo temporário
+                    if tmp_user_file.exists():
+                        tmp_user_file.unlink()
+            
+            # Adicionar modelos
+            tmp_models_file = base_dir / 'tmp_models_backup.json'
+            try:
+                with open(tmp_models_file, 'w', encoding='utf-8') as tmp:
+                    call_command(
+                        'dumpdata',
+                        *models_to_backup,
+                        '--indent', '2',
+                        '--natural-foreign',
+                        '--natural-primary',
+                        stdout=tmp
+                    )
+                # Ler o arquivo temporário
+                with open(tmp_models_file, 'r', encoding='utf-8') as tmp_read:
+                    models_data = json.load(tmp_read)
+                    if isinstance(models_data, list):
+                        all_data.extend(models_data)
+                    else:
+                        all_data.append(models_data)
+            finally:
+                # Remover arquivo temporário
+                if tmp_models_file.exists():
+                    tmp_models_file.unlink()
+            
+            # Escrever tudo em um único array JSON
             with open(output_file, 'w', encoding='utf-8') as f:
-                call_command(
-                    'dumpdata',
-                    *models_to_backup,
-                    '--indent', '2',
-                    '--natural-foreign',
-                    '--natural-primary',
-                    stdout=f
-                )
+                json.dump(all_data, f, indent=2, ensure_ascii=False)
 
             file_size = os.path.getsize(output_file)
             file_size_kb = file_size / 1024
 
             self.stdout.write(
                 self.style.SUCCESS(
-                    f'\n✅ Backup criado com sucesso!\n'
-                    f'📁 Arquivo: {output_file.name}\n'
-                    f'📍 Localização: {output_file}\n'
-                    f'📊 Tamanho: {file_size_kb:.2f} KB\n'
-                    f'\n💡 Próximo passo: Adicione ao Git e configure o Railway para restaurar automaticamente.'
+                    f'\n[OK] Backup criado com sucesso!\n'
+                    f'Arquivo: {output_file.name}\n'
+                    f'Localizacao: {output_file}\n'
+                    f'Tamanho: {file_size_kb:.2f} KB\n'
+                    f'\nProximo passo: Adicione ao Git e configure o Railway para restaurar automaticamente.'
                 )
             )
 
         except Exception as e:
             self.stdout.write(
-                self.style.ERROR(f'\n❌ Erro: {e}')
+                self.style.ERROR(f'\n[ERRO] Erro: {e}')
             )
             if os.path.exists(output_file):
                 os.remove(output_file)

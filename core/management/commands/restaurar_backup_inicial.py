@@ -31,15 +31,15 @@ class Command(BaseCommand):
         backup_file = base_dir / options['file']
 
         self.stdout.write(self.style.SUCCESS('=' * 60))
-        self.stdout.write(self.style.SUCCESS('🔄 RESTAURANDO BACKUP INICIAL'))
+        self.stdout.write(self.style.SUCCESS('RESTAURANDO BACKUP INICIAL'))
         self.stdout.write(self.style.SUCCESS('=' * 60))
 
         # Verificar se o arquivo existe
         if not backup_file.exists():
             self.stdout.write(
                 self.style.ERROR(
-                    f'\n❌ Arquivo não encontrado: {backup_file}\n'
-                    f'   Certifique-se de que o arquivo está na raiz do projeto.'
+                    f'\n[ERRO] Arquivo nao encontrado: {backup_file}\n'
+                    f'   Certifique-se de que o arquivo esta na raiz do projeto.'
                 )
             )
             return
@@ -57,21 +57,21 @@ class Command(BaseCommand):
             modelos = sum(1 for item in data if item.get('model') == 'carros.modeloveiculo')
             versoes = sum(1 for item in data if item.get('model') == 'carros.versaoveiculo')
 
-            self.stdout.write(f'\n📊 Conteúdo do backup:')
-            self.stdout.write(f'   👤 Superusuários: {usuarios}')
-            self.stdout.write(f'   🏷️  Marcas: {marcas}')
-            self.stdout.write(f'   🚗 Modelos: {modelos}')
-            self.stdout.write(f'   📋 Versões: {versoes}')
-            self.stdout.write(f'   📦 Total: {total_records} registros\n')
+            self.stdout.write(f'\nConteudo do backup:')
+            self.stdout.write(f'   Superusuarios: {usuarios}')
+            self.stdout.write(f'   Marcas: {marcas}')
+            self.stdout.write(f'   Modelos: {modelos}')
+            self.stdout.write(f'   Versoes: {versoes}')
+            self.stdout.write(f'   Total: {total_records} registros\n')
 
         except Exception as e:
             self.stdout.write(
-                self.style.WARNING(f'⚠️  Não foi possível ler o conteúdo do arquivo: {e}')
+                self.style.WARNING(f'[AVISO] Nao foi possivel ler o conteudo do arquivo: {e}')
             )
             total_records = 0
 
         # Restaurar backup
-        self.stdout.write(f'🔄 Restaurando backup de: {backup_file.name}...\n')
+        self.stdout.write(f'Restaurando backup de: {backup_file.name}...\n')
 
         try:
             # Executar loaddata
@@ -82,14 +82,14 @@ class Command(BaseCommand):
             )
 
             self.stdout.write(self.style.SUCCESS('\n' + '=' * 60))
-            self.stdout.write(self.style.SUCCESS('✅ BACKUP RESTAURADO COM SUCESSO!'))
+            self.stdout.write(self.style.SUCCESS('[OK] BACKUP RESTAURADO COM SUCESSO!'))
             self.stdout.write(self.style.SUCCESS('=' * 60))
             self.stdout.write(
                 self.style.SUCCESS(
-                    f'\n📊 Resumo:\n'
-                    f'   ✅ {total_records} registro(s) processado(s)\n'
-                    f'   ✅ Banco de dados atualizado\n'
-                    f'   ✅ Sistema pronto para uso\n'
+                    f'\nResumo:\n'
+                    f'   [OK] {total_records} registro(s) processado(s)\n'
+                    f'   [OK] Banco de dados atualizado\n'
+                    f'   [OK] Sistema pronto para uso\n'
                 )
             )
 
@@ -101,24 +101,24 @@ class Command(BaseCommand):
                 self.stdout.write(
                     self.style.WARNING(
                         '\n' + '=' * 60 + '\n'
-                        '⚠️  ALGUNS REGISTROS JÁ EXISTEM NO BANCO\n'
+                        '[AVISO] ALGUNS REGISTROS JA EXISTEM NO BANCO\n'
                         '=' * 60 + '\n'
-                        'Isso é normal se o backup já foi restaurado anteriormente.\n'
+                        'Isso e normal se o backup ja foi restaurado anteriormente.\n'
                         'Os registros novos foram inseridos, os duplicados foram ignorados.\n'
-                        '\n✅ Sistema funcionando normalmente.\n'
+                        '\n[OK] Sistema funcionando normalmente.\n'
                     )
                 )
             else:
                 self.stdout.write(
                     self.style.ERROR(
                         '\n' + '=' * 60 + '\n'
-                        '❌ ERRO AO RESTAURAR BACKUP\n'
+                        '[ERRO] ERRO AO RESTAURAR BACKUP\n'
                         '=' * 60 + '\n'
                         f'Erro: {error_msg}\n'
                         '\nVerifique:\n'
-                        '  - Se as migrações foram aplicadas (python manage.py migrate)\n'
-                        '  - Se o arquivo está no formato correto\n'
-                        '  - Se há conflitos de dados no banco\n'
+                        '  - Se as migracoes foram aplicadas (python manage.py migrate)\n'
+                        '  - Se o arquivo esta no formato correto\n'
+                        '  - Se ha conflitos de dados no banco\n'
                     )
                 )
                 raise
