@@ -30,10 +30,14 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        output_file = options['output']
+        from pathlib import Path
         
-        if not output_file.endswith('.json'):
-            output_file += '.json'
+        # Garantir que o arquivo seja salvo na raiz do projeto
+        base_dir = Path(__file__).resolve().parent.parent.parent.parent
+        output_file = base_dir / options['output']
+        
+        if not output_file.suffix == '.json':
+            output_file = output_file.with_suffix('.json')
 
         self.stdout.write(self.style.SUCCESS('Fazendo backup do essencial...'))
 
@@ -76,8 +80,11 @@ class Command(BaseCommand):
 
             self.stdout.write(
                 self.style.SUCCESS(
-                    f'\n✅ Backup criado: {output_file}\n'
-                    f'📊 Tamanho: {file_size_kb:.2f} KB'
+                    f'\n✅ Backup criado com sucesso!\n'
+                    f'📁 Arquivo: {output_file.name}\n'
+                    f'📍 Localização: {output_file}\n'
+                    f'📊 Tamanho: {file_size_kb:.2f} KB\n'
+                    f'\n💡 Próximo passo: Adicione ao Git e configure o Railway para restaurar automaticamente.'
                 )
             )
 
