@@ -228,3 +228,5 @@ if not DEBUG:
     X_FRAME_OPTIONS = 'DENY'
     CSRF_COOKIE_SECURE = True  # Mantém True porque Railway usa HTTPS
     CSRF_COOKIE_HTTPONLY = True
+    CSRF_USE_SESSIONS = False  # Usar cookies CSRF (padrão)
+    CSRF_COOKIE_SAMESITE = 'Lax'  # Compatível com Railway
