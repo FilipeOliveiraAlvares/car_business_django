@@ -173,6 +173,11 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 WHITENOISE_USE_FINDERS = True  # Permite servir arquivos mesmo sem collectstatic em dev
 WHITENOISE_AUTOREFRESH = True  # Atualiza automaticamente em desenvolvimento
 
+# NOTA: WhiteNoise NÃO serve arquivos MEDIA por padrão
+# Arquivos MEDIA são servidos via view customizada (core.views.serve_media) em produção
+# IMPORTANTE: No Railway, o sistema de arquivos é efêmero (arquivos são perdidos ao reiniciar)
+# Para produção real com persistência, considere usar S3, Cloudinary ou outro serviço de storage
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 

@@ -32,10 +32,17 @@ urlpatterns = [
     path('usuario/', include('usuarios.urls')),
 ]
 
-
-""" codigo para aparecer a logo"""
+# Servir arquivos MEDIA
 from django.conf import settings
 from django.conf.urls.static import static
+from core.views import serve_media
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+    # Em desenvolvimento, usar o método padrão do Django
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+else:
+    # Em produção, usar view customizada para servir MEDIA
+    urlpatterns += [
+        path('media/<path:path>', serve_media, name='serve_media'),
+    ]
 
